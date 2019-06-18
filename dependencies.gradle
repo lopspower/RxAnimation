@@ -1,0 +1,35 @@
+allprojects {
+    repositories {
+        google()
+        jcenter()
+    }
+}
+
+ext {
+    // APP VERSION
+    androidVersionCode          = 1
+    androidVersionName          = '1.0.0'
+
+    // ANDROID VERSION
+    androidCompileSdkVersion    = 28
+    androidMinSdkVersion        = 14
+    androidTargetSdkVersion     = 28
+
+    // KOTLIN
+    kotlinStdlib                = "org.jetbrains.kotlin:kotlin-stdlib:${ext.kotlin_version}"
+
+    // ANDROID LIB
+    androidAppCompatXVersion    = '1.0.2'
+    androidXAppCompat           = "androidx.appcompat:appcompat:$androidAppCompatXVersion"
+
+    // RX
+    rxAndroidVersion            = '2.1.1'
+    rxJavaVersion               = '2.2.9'
+    rxKotlinVersion             = '2.3.0'
+    rxBindingVersion            = '2.2.0'
+    rxAndroid                   = "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
+    rxJava                      = "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
+    rxKotlin                    = "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
+    rxBinding                   = "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion"
+
+}
