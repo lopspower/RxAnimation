@@ -2,8 +2,11 @@ package com.mikhaellopez.rxanimationsample
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import com.jakewharton.rxbinding2.view.RxView
-import com.mikhaellopez.rxanimation.completableAnimation
+import com.mikhaellopez.rxanimation.setAlphaToCompletable
+import com.mikhaellopez.rxanimation.setBackgroundColorToCompletable
+import com.mikhaellopez.rxanimation.setTranslationToCompletable
 import com.mikhaellopez.rxanimation.zipWith
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
@@ -21,16 +24,25 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
 
+        RxView.clicks(content)
+                .flatMapCompletable {
+                    view.setAlphaToCompletable(1f, 3000)
+                }.subscribe().addTo(composite)
+
+        /*RxView.clicks(view)
+                .flatMapCompletable {
+                    ValueAnimator.ofFloat(0f, 300f).startToCompletable(2000) {
+                        view?.translationX = it as Float
+                    }
+                }.subscribe().addTo(composite)*/
+
         RxView.clicks(view)
                 .flatMapCompletable {
-                    (0f to 1f).completableAnimation(3000) {
-                        view?.alpha = it
-                    }.andThen(
-                            (0f to 100f).completableAnimation(2000) { view?.translationX = it }
-                                    .zipWith(
-                                            (0f to 200f).completableAnimation(2000) { view?.translationY = it }
-                                    )
-                    )
+                    view.setTranslationToCompletable(300f, 500f, 2000)
+                            .zipWith(view.setBackgroundColorToCompletable(
+                                    ContextCompat.getColor(this, R.color.accent),
+                                    ContextCompat.getColor(this, R.color.primary),
+                                    2000))
                 }.subscribe().addTo(composite)
     }
 

@@ -12,7 +12,7 @@ ext {
 
     // ANDROID VERSION
     androidCompileSdkVersion    = 28
-    androidMinSdkVersion        = 14
+    androidMinSdkVersion        = 16
     androidTargetSdkVersion     = 28
 
     // KOTLIN
