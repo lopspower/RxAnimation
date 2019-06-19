@@ -27,21 +27,14 @@ class MainActivity : AppCompatActivity() {
         RxView.clicks(content)
                 .flatMapCompletable {
                     RxAnimation.sequentially(
-                            view.setAlphaToCompletable(1f, 3000),
-                            view.setTranslationToCompletable(300f, 500f, 5000),
+                            view.setAlphaToCompletable(1f, 2000),
+                            view.setTranslationToCompletable(300f, 500f, 2000),
                             view.setBackgroundColorToCompletable(
                                     ContextCompat.getColor(this, R.color.accent),
                                     ContextCompat.getColor(this, R.color.primary),
-                                    5000)
+                                    1000)
                     )
                 }.subscribe().addTo(composite)
-
-        /*RxView.clicks(view)
-                .flatMapCompletable {
-                    ValueAnimator.ofFloat(0f, 300f).startToCompletable(2000) {
-                        view?.translationX = it as Float
-                    }
-                }.subscribe().addTo(composite)*/
     }
 
     override fun onPause() {
