@@ -4,10 +4,10 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.jakewharton.rxbinding2.view.RxView
+import com.mikhaellopez.rxanimation.RxAnimation
 import com.mikhaellopez.rxanimation.setAlphaToCompletable
 import com.mikhaellopez.rxanimation.setBackgroundColorToCompletable
 import com.mikhaellopez.rxanimation.setTranslationToCompletable
-import com.mikhaellopez.rxanimation.zipWith
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.rxkotlin.addTo
 import kotlinx.android.synthetic.main.activity_main.*
@@ -26,7 +26,14 @@ class MainActivity : AppCompatActivity() {
 
         RxView.clicks(content)
                 .flatMapCompletable {
-                    view.setAlphaToCompletable(1f, 3000)
+                    RxAnimation.sequentially(
+                            view.setAlphaToCompletable(1f, 3000),
+                            view.setTranslationToCompletable(300f, 500f, 5000),
+                            view.setBackgroundColorToCompletable(
+                                    ContextCompat.getColor(this, R.color.accent),
+                                    ContextCompat.getColor(this, R.color.primary),
+                                    5000)
+                    )
                 }.subscribe().addTo(composite)
 
         /*RxView.clicks(view)
@@ -35,15 +42,6 @@ class MainActivity : AppCompatActivity() {
                         view?.translationX = it as Float
                     }
                 }.subscribe().addTo(composite)*/
-
-        RxView.clicks(view)
-                .flatMapCompletable {
-                    view.setTranslationToCompletable(300f, 500f, 2000)
-                            .zipWith(view.setBackgroundColorToCompletable(
-                                    ContextCompat.getColor(this, R.color.accent),
-                                    ContextCompat.getColor(this, R.color.primary),
-                                    2000))
-                }.subscribe().addTo(composite)
     }
 
     override fun onPause() {

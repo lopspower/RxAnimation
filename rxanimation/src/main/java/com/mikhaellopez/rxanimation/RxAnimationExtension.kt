@@ -11,6 +11,14 @@ import io.reactivex.Completable
 fun View.animateToCompletable(alpha: Float? = null,
                               translationX: Float? = null,
                               translationY: Float? = null,
+                              scaleX: Float? = null,
+                              scaleY: Float? = null,
+                              rotation: Float? = null,
+                              rotationX: Float? = null,
+                              rotationY: Float? = null,
+                              x: Float? = null,
+                              y: Float? = null,
+                              z: Float? = null,
                               duration: Long? = null,
                               interpolator: TimeInterpolator? = null,
                               startDelay: Long? = null): Completable =
@@ -18,6 +26,12 @@ fun View.animateToCompletable(alpha: Float? = null,
             animate(alpha,
                     translationX,
                     translationY,
+                    scaleX,
+                    scaleY,
+                    rotation,
+                    rotationX,
+                    rotationY,
+                    x, y, z,
                     duration,
                     interpolator,
                     startDelay
@@ -29,8 +43,25 @@ fun ValueAnimator.startToCompletable(duration: Long? = null,
         Completable.create {
             start(duration,
                     animationEnd = { it.onComplete() },
-                    action = action
-            )
+                    action = action)
+        }
+
+fun Pair<Float, Float>.rangeFLoatToCompletable(duration: Long? = null,
+                                               action: (Float) -> Unit): Completable =
+        Completable.create {
+            ValueAnimator.ofFloat(first, second)
+                    .start(duration,
+                            animationEnd = { it.onComplete() },
+                            action = { action(it as Float) })
+        }
+
+fun Pair<Int, Int>.rangeIntToCompletable(duration: Long? = null,
+                                         action: (Int) -> Unit): Completable =
+        Completable.create {
+            ValueAnimator.ofInt(first, second)
+                    .start(duration,
+                            animationEnd = { it.onComplete() },
+                            action = { action(it as Int) })
         }
 //endregion
 
@@ -41,6 +72,24 @@ fun View.setAlphaToCompletable(alpha: Float,
                                startDelay: Long? = null): Completable =
         animateToCompletable(
                 alpha = alpha,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+
+fun View.fadeIn(duration: Long? = null,
+                interpolator: TimeInterpolator? = null,
+                startDelay: Long? = null): Completable =
+        animateToCompletable(
+                alpha = 1f,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+
+fun View.fadeOut(duration: Long? = null,
+                 interpolator: TimeInterpolator? = null,
+                 startDelay: Long? = null): Completable =
+        animateToCompletable(
+                alpha = 0f,
                 duration = duration,
                 interpolator = interpolator,
                 startDelay = startDelay)
@@ -75,6 +124,118 @@ fun View.setTranslationYToCompletable(translationY: Float,
                                       startDelay: Long? = null): Completable =
         animateToCompletable(
                 translationY = translationY,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+//endregion
+
+//region SCALE
+fun View.setScaleToCompletable(scaleX: Float,
+                               scaleY: Float,
+                               duration: Long? = null,
+                               interpolator: TimeInterpolator? = null,
+                               startDelay: Long? = null): Completable =
+        animateToCompletable(
+                scaleX = scaleX,
+                scaleY = scaleY,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+
+fun View.setScaleXToCompletable(scaleX: Float,
+                                duration: Long? = null,
+                                interpolator: TimeInterpolator? = null,
+                                startDelay: Long? = null): Completable =
+        animateToCompletable(
+                scaleX = scaleX,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+
+fun View.setScaleYToCompletable(scaleY: Float,
+                                duration: Long? = null,
+                                interpolator: TimeInterpolator? = null,
+                                startDelay: Long? = null): Completable =
+        animateToCompletable(
+                scaleY = scaleY,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+//endregion
+
+//region ROTATION
+fun View.setRotationToCompletable(rotation: Float,
+                                  duration: Long? = null,
+                                  interpolator: TimeInterpolator? = null,
+                                  startDelay: Long? = null): Completable =
+        animateToCompletable(
+                rotation = rotation,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+
+fun View.setRotationXToCompletable(rotationX: Float,
+                                   duration: Long? = null,
+                                   interpolator: TimeInterpolator? = null,
+                                   startDelay: Long? = null): Completable =
+        animateToCompletable(
+                rotationX = rotationX,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+
+fun View.setRotationYToCompletable(rotationY: Float,
+                                   duration: Long? = null,
+                                   interpolator: TimeInterpolator? = null,
+                                   startDelay: Long? = null): Completable =
+        animateToCompletable(
+                rotationY = rotationY,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+//endregion
+
+//region X, Y, Z
+fun View.setXYZToCompletable(x: Float? = null,
+                             y: Float? = null,
+                             z: Float? = null,
+                             duration: Long? = null,
+                             interpolator: TimeInterpolator? = null,
+                             startDelay: Long? = null): Completable =
+        animateToCompletable(
+                x = x,
+                y = y,
+                z = z,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+
+fun View.setXToCompletable(x: Float,
+                           duration: Long? = null,
+                           interpolator: TimeInterpolator? = null,
+                           startDelay: Long? = null): Completable =
+        animateToCompletable(
+                x = x,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+
+fun View.setYToCompletable(y: Float,
+                           duration: Long? = null,
+                           interpolator: TimeInterpolator? = null,
+                           startDelay: Long? = null): Completable =
+        animateToCompletable(
+                y = y,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+
+fun View.setZToCompletable(z: Float,
+                           duration: Long? = null,
+                           interpolator: TimeInterpolator? = null,
+                           startDelay: Long? = null): Completable =
+        animateToCompletable(
+                z = z,
                 duration = duration,
                 interpolator = interpolator,
                 startDelay = startDelay)
