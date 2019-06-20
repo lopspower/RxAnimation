@@ -28,7 +28,6 @@ dependencies {
     // RX
     implementation rxAndroid
     implementation rxKotlin
-    implementation rxBinding
 }
 
 //region Publish to jCenter

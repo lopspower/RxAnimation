@@ -2,7 +2,6 @@ package com.mikhaellopez.rxanimation
 
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
-import android.support.annotation.ColorInt
 import android.view.View
 import android.view.animation.Interpolator
 import io.reactivex.Completable
@@ -408,8 +407,8 @@ fun Observable<View>.resize(width: Int, height: Int,
 //endregion
 
 //region COLOR
-fun View.setBackgroundColorToCompletable(@ColorInt colorFrom: Int,
-                                         @ColorInt colorTo: Int,
+fun View.setBackgroundColorToCompletable(colorFrom: Int,
+                                         colorTo: Int,
                                          duration: Long? = null,
                                          interpolator: Interpolator? = null): Completable =
         Completable.create {
@@ -421,8 +420,8 @@ fun View.setBackgroundColorToCompletable(@ColorInt colorFrom: Int,
             ) { it.onComplete() }
         }
 
-fun Observable<View>.setBackgroundColor(@ColorInt colorFrom: Int,
-                                        @ColorInt colorTo: Int,
+fun Observable<View>.setBackgroundColor(colorFrom: Int,
+                                        colorTo: Int,
                                         duration: Long? = null,
                                         interpolator: Interpolator? = null): Observable<View> =
         doCompletable { it.setBackgroundColorToCompletable(colorFrom, colorTo, duration, interpolator) }

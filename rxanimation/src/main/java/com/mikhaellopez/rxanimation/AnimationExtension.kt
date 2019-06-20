@@ -4,7 +4,6 @@ import android.animation.ArgbEvaluator
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.os.Handler
-import android.support.annotation.ColorInt
 import android.util.DisplayMetrics
 import android.view.View
 import android.view.animation.Interpolator
@@ -58,8 +57,8 @@ fun ValueAnimator.start(duration: Long? = null,
     }.start()
 }
 
-fun View.setBackgroundColorWithAnimation(@ColorInt colorFrom: Int,
-                                         @ColorInt colorTo: Int,
+fun View.setBackgroundColorWithAnimation(colorFrom: Int,
+                                         colorTo: Int,
                                          duration: Long? = null,
                                          interpolator: Interpolator? = null,
                                          animationEnd: (() -> Unit)? = null) {
