@@ -68,6 +68,18 @@ RxAnimation.fromView(view)
         .resize(200, 200)
 ```
 
+- You can also use the **`range()`** function to animate a change on a custom property:
+
+```kotlin
+(0f to 1f).rangeFloatToCompletable { customView.customProperties = it }
+
+// or
+
+RxAnimation.fromView(view)
+        .rangeFloat(0f, 1f) { customView.customProperties = it }
+```
+
+
 ALL PROPERTIES
 -----
 
@@ -88,6 +100,10 @@ backgroundColor | setBackgroundColorWithAnimation | setBackgroundColorToCompleta
 width | setWidth | setWidthToCompletable | setWidth
 height | setHeight | setHeightToCompletable | setHeight
 resize | - | resizeToCompletable | resize
+customProperties | - | rangeFloatToCompletable | rangeFloat
+customProperties | - | rangeIntToCompletable | rangeInt
+customProperties | - | rangeIntToCompletable | rangeInt
+ValueAnimator | start | startToCompletable | startValueAnimator
 
 LICENCE
 -----
