@@ -56,7 +56,7 @@ RxAnimation.sequentially(
         view2.resizeToCompletable(200, 200))
 ```
 
-- You can also used **`RxAnimation.fromView(view)`** if you want to update multi properties in the same view:
+- You can also used **`RxAnimation.fromView(view)`** if you want to update multi properties one by one in the same view:
 
 ```kotlin
 RxAnimation.fromView(view)
