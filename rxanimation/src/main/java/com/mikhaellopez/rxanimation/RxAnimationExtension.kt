@@ -6,6 +6,12 @@ import android.support.annotation.ColorInt
 import android.view.View
 import android.view.animation.Interpolator
 import io.reactivex.Completable
+import io.reactivex.Observable
+
+//region PRIVATE UTILS
+private fun Observable<View>.doCompletable(actionCompletable: (View) -> Completable): Observable<View> =
+        flatMap { actionCompletable(it).toSingleDefault(it).toObservable() }
+//endregion
 
 //region DEFAULT
 fun View.animateToCompletable(alpha: Float? = null,
@@ -76,6 +82,12 @@ fun View.setAlphaToCompletable(alpha: Float,
                 interpolator = interpolator,
                 startDelay = startDelay)
 
+fun Observable<View>.setAlpha(alpha: Float,
+                              duration: Long? = null,
+                              interpolator: TimeInterpolator? = null,
+                              startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setAlphaToCompletable(alpha, duration, interpolator, startDelay) }
+
 fun View.fadeIn(duration: Long? = null,
                 interpolator: TimeInterpolator? = null,
                 startDelay: Long? = null): Completable =
@@ -85,6 +97,11 @@ fun View.fadeIn(duration: Long? = null,
                 interpolator = interpolator,
                 startDelay = startDelay)
 
+fun Observable<View>.fadeIn(duration: Long? = null,
+                            interpolator: TimeInterpolator? = null,
+                            startDelay: Long? = null): Observable<View> =
+        doCompletable { it.fadeIn(duration, interpolator, startDelay) }
+
 fun View.fadeOut(duration: Long? = null,
                  interpolator: TimeInterpolator? = null,
                  startDelay: Long? = null): Completable =
@@ -93,6 +110,11 @@ fun View.fadeOut(duration: Long? = null,
                 duration = duration,
                 interpolator = interpolator,
                 startDelay = startDelay)
+
+fun Observable<View>.fadeOut(duration: Long? = null,
+                             interpolator: TimeInterpolator? = null,
+                             startDelay: Long? = null): Observable<View> =
+        doCompletable { it.fadeOut(duration, interpolator, startDelay) }
 //endregion
 
 //region TRANSLATION
@@ -108,6 +130,13 @@ fun View.setTranslationToCompletable(translationX: Float,
                 interpolator = interpolator,
                 startDelay = startDelay)
 
+fun Observable<View>.setTranslation(translationX: Float,
+                                    translationY: Float,
+                                    duration: Long? = null,
+                                    interpolator: TimeInterpolator? = null,
+                                    startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setTranslationToCompletable(translationX, translationY, duration, interpolator, startDelay) }
+
 fun View.setTranslationXToCompletable(translationX: Float,
                                       duration: Long? = null,
                                       interpolator: TimeInterpolator? = null,
@@ -118,6 +147,12 @@ fun View.setTranslationXToCompletable(translationX: Float,
                 interpolator = interpolator,
                 startDelay = startDelay)
 
+fun Observable<View>.setTranslationX(translationX: Float,
+                                     duration: Long? = null,
+                                     interpolator: TimeInterpolator? = null,
+                                     startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setTranslationXToCompletable(translationX, duration, interpolator, startDelay) }
+
 fun View.setTranslationYToCompletable(translationY: Float,
                                       duration: Long? = null,
                                       interpolator: TimeInterpolator? = null,
@@ -127,6 +162,12 @@ fun View.setTranslationYToCompletable(translationY: Float,
                 duration = duration,
                 interpolator = interpolator,
                 startDelay = startDelay)
+
+fun Observable<View>.setTranslationY(translationY: Float,
+                                     duration: Long? = null,
+                                     interpolator: TimeInterpolator? = null,
+                                     startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setTranslationYToCompletable(translationY, duration, interpolator, startDelay) }
 //endregion
 
 //region SCALE
@@ -142,6 +183,13 @@ fun View.setScaleToCompletable(scaleX: Float,
                 interpolator = interpolator,
                 startDelay = startDelay)
 
+fun Observable<View>.setScale(scaleX: Float,
+                              scaleY: Float,
+                              duration: Long? = null,
+                              interpolator: TimeInterpolator? = null,
+                              startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setScaleToCompletable(scaleX, scaleY, duration, interpolator, startDelay) }
+
 fun View.setScaleXToCompletable(scaleX: Float,
                                 duration: Long? = null,
                                 interpolator: TimeInterpolator? = null,
@@ -152,6 +200,12 @@ fun View.setScaleXToCompletable(scaleX: Float,
                 interpolator = interpolator,
                 startDelay = startDelay)
 
+fun Observable<View>.setScaleX(scaleX: Float,
+                               duration: Long? = null,
+                               interpolator: TimeInterpolator? = null,
+                               startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setScaleXToCompletable(scaleX, duration, interpolator, startDelay) }
+
 fun View.setScaleYToCompletable(scaleY: Float,
                                 duration: Long? = null,
                                 interpolator: TimeInterpolator? = null,
@@ -161,6 +215,12 @@ fun View.setScaleYToCompletable(scaleY: Float,
                 duration = duration,
                 interpolator = interpolator,
                 startDelay = startDelay)
+
+fun Observable<View>.setScaleY(scaleY: Float,
+                               duration: Long? = null,
+                               interpolator: TimeInterpolator? = null,
+                               startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setScaleYToCompletable(scaleY, duration, interpolator, startDelay) }
 //endregion
 
 //region ROTATION
@@ -174,6 +234,12 @@ fun View.setRotationToCompletable(rotation: Float,
                 interpolator = interpolator,
                 startDelay = startDelay)
 
+fun Observable<View>.setRotation(rotation: Float,
+                                 duration: Long? = null,
+                                 interpolator: TimeInterpolator? = null,
+                                 startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setRotationToCompletable(rotation, duration, interpolator, startDelay) }
+
 fun View.setRotationXToCompletable(rotationX: Float,
                                    duration: Long? = null,
                                    interpolator: TimeInterpolator? = null,
@@ -184,6 +250,12 @@ fun View.setRotationXToCompletable(rotationX: Float,
                 interpolator = interpolator,
                 startDelay = startDelay)
 
+fun Observable<View>.setRotationX(rotationX: Float,
+                                  duration: Long? = null,
+                                  interpolator: TimeInterpolator? = null,
+                                  startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setRotationXToCompletable(rotationX, duration, interpolator, startDelay) }
+
 fun View.setRotationYToCompletable(rotationY: Float,
                                    duration: Long? = null,
                                    interpolator: TimeInterpolator? = null,
@@ -193,6 +265,12 @@ fun View.setRotationYToCompletable(rotationY: Float,
                 duration = duration,
                 interpolator = interpolator,
                 startDelay = startDelay)
+
+fun Observable<View>.setRotationY(rotationY: Float,
+                                  duration: Long? = null,
+                                  interpolator: TimeInterpolator? = null,
+                                  startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setRotationYToCompletable(rotationY, duration, interpolator, startDelay) }
 //endregion
 
 //region X, Y, Z
@@ -210,6 +288,14 @@ fun View.setXYZToCompletable(x: Float? = null,
                 interpolator = interpolator,
                 startDelay = startDelay)
 
+fun Observable<View>.setXYZ(x: Float? = null,
+                            y: Float? = null,
+                            z: Float? = null,
+                            duration: Long? = null,
+                            interpolator: TimeInterpolator? = null,
+                            startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setXYZToCompletable(x, y, z, duration, interpolator, startDelay) }
+
 fun View.setXToCompletable(x: Float,
                            duration: Long? = null,
                            interpolator: TimeInterpolator? = null,
@@ -219,6 +305,12 @@ fun View.setXToCompletable(x: Float,
                 duration = duration,
                 interpolator = interpolator,
                 startDelay = startDelay)
+
+fun Observable<View>.setX(x: Float,
+                          duration: Long? = null,
+                          interpolator: TimeInterpolator? = null,
+                          startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setXToCompletable(x, duration, interpolator, startDelay) }
 
 fun View.setYToCompletable(y: Float,
                            duration: Long? = null,
@@ -230,6 +322,12 @@ fun View.setYToCompletable(y: Float,
                 interpolator = interpolator,
                 startDelay = startDelay)
 
+fun Observable<View>.setY(y: Float,
+                          duration: Long? = null,
+                          interpolator: TimeInterpolator? = null,
+                          startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setYToCompletable(y, duration, interpolator, startDelay) }
+
 fun View.setZToCompletable(z: Float,
                            duration: Long? = null,
                            interpolator: TimeInterpolator? = null,
@@ -239,19 +337,30 @@ fun View.setZToCompletable(z: Float,
                 duration = duration,
                 interpolator = interpolator,
                 startDelay = startDelay)
+
+fun Observable<View>.setZ(z: Float,
+                          duration: Long? = null,
+                          interpolator: TimeInterpolator? = null,
+                          startDelay: Long? = null): Observable<View> =
+        doCompletable { it.setZToCompletable(z, duration, interpolator, startDelay) }
 //endregion
 
 //region RESIZE
-fun View.resizeHeightToCompletable(fromHeight: Int, toHeight: Int,
-                                   duration: Long? = null,
-                                   interpolator: Interpolator? = null): Completable =
+fun View.setHeightToCompletable(fromHeight: Int, toHeight: Int,
+                                duration: Long? = null,
+                                interpolator: Interpolator? = null): Completable =
         Completable.create {
-            resizeHeightWithAnimation(
+            setHeightWithAnimation(
                     fromHeight, toHeight,
                     duration,
                     interpolator
             ) { it.onComplete() }
         }
+
+fun Observable<View>.setHeight(fromHeight: Int, toHeight: Int,
+                               duration: Long? = null,
+                               interpolator: Interpolator? = null): Observable<View> =
+        doCompletable { it.setHeightToCompletable(fromHeight, toHeight, duration, interpolator) }
 //endregion
 
 //region COLOR
@@ -267,4 +376,10 @@ fun View.setBackgroundColorToCompletable(@ColorInt colorFrom: Int,
                     interpolator
             ) { it.onComplete() }
         }
+
+fun Observable<View>.setBackgroundColor(@ColorInt colorFrom: Int,
+                                        @ColorInt colorTo: Int,
+                                        duration: Long? = null,
+                                        interpolator: Interpolator? = null): Observable<View> =
+        doCompletable { it.setBackgroundColorToCompletable(colorFrom, colorTo, duration, interpolator) }
 //endregion

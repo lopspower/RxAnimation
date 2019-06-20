@@ -54,10 +54,10 @@ fun ValueAnimator.start(duration: Long? = null,
     }.start()
 }
 
-fun View.resizeHeightWithAnimation(fromHeight: Int, toHeight: Int,
-                                   duration: Long? = null,
-                                   interpolator: Interpolator? = null,
-                                   animationEnd: (() -> Unit)? = null) {
+fun View.setHeightWithAnimation(fromHeight: Int, toHeight: Int,
+                                duration: Long? = null,
+                                interpolator: Interpolator? = null,
+                                animationEnd: (() -> Unit)? = null) {
     startAnimation(object : Animation() {
         override fun applyTransformation(interpolatedTime: Float, transformation: Transformation) {
             layoutParams.height = if (interpolatedTime == 1f) toHeight
