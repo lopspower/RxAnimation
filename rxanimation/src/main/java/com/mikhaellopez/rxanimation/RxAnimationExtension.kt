@@ -43,16 +43,23 @@ fun View.animateToCompletable(alpha: Float? = null,
                     startDelay
             ) { it.onComplete() }
         }
+//endregion
 
+//region VALUE ANIMATOR
 fun ValueAnimator.startToCompletable(duration: Long? = null,
                                      action: (Any) -> Unit): Completable =
         Completable.create {
-            start(duration,
-                    animationEnd = { it.onComplete() },
-                    action = action)
+            start(duration, animationEnd = { it.onComplete() }, action = action)
         }
 
-fun Pair<Float, Float>.rangeFLoatToCompletable(duration: Long? = null,
+fun Observable<View>.startValueAnimator(valueAnimator: ValueAnimator,
+                                        duration: Long? = null,
+                                        action: (Any) -> Unit): Observable<View> =
+        doCompletable { valueAnimator.startToCompletable(duration, action) }
+//endregion
+
+//region RANGE
+fun Pair<Float, Float>.rangeFloatToCompletable(duration: Long? = null,
                                                action: (Float) -> Unit): Completable =
         Completable.create {
             ValueAnimator.ofFloat(first, second)
@@ -60,6 +67,11 @@ fun Pair<Float, Float>.rangeFLoatToCompletable(duration: Long? = null,
                             animationEnd = { it.onComplete() },
                             action = { action(it as Float) })
         }
+
+fun Observable<View>.rangeFloat(start: Float, end: Float,
+                                duration: Long? = null,
+                                action: (Float) -> Unit): Observable<View> =
+        doCompletable { (start to end).rangeFloatToCompletable(duration, action) }
 
 fun Pair<Int, Int>.rangeIntToCompletable(duration: Long? = null,
                                          action: (Int) -> Unit): Completable =
@@ -69,6 +81,11 @@ fun Pair<Int, Int>.rangeIntToCompletable(duration: Long? = null,
                             animationEnd = { it.onComplete() },
                             action = { action(it as Int) })
         }
+
+fun Observable<View>.rangeInt(start: Int, end: Int,
+                              duration: Long? = null,
+                              action: (Int) -> Unit): Observable<View> =
+        doCompletable { (start to end).rangeIntToCompletable(duration, action) }
 //endregion
 
 //region ALPHA
@@ -346,21 +363,48 @@ fun Observable<View>.setZ(z: Float,
 //endregion
 
 //region RESIZE
-fun View.setHeightToCompletable(fromHeight: Int, toHeight: Int,
-                                duration: Long? = null,
-                                interpolator: Interpolator? = null): Completable =
+fun View.setWidthToCompletable(width: Int,
+                               duration: Long? = null,
+                               interpolator: Interpolator? = null): Completable =
         Completable.create {
-            setHeightWithAnimation(
-                    fromHeight, toHeight,
+            setWidthWithAnimation(
+                    width,
                     duration,
                     interpolator
             ) { it.onComplete() }
         }
 
-fun Observable<View>.setHeight(fromHeight: Int, toHeight: Int,
+fun Observable<View>.setWidth(width: Int,
+                              duration: Long? = null,
+                              interpolator: Interpolator? = null): Observable<View> =
+        doCompletable { it.setWidthToCompletable(width, duration, interpolator) }
+
+fun View.setHeightToCompletable(height: Int,
+                                duration: Long? = null,
+                                interpolator: Interpolator? = null): Completable =
+        Completable.create {
+            setHeightWithAnimation(
+                    height,
+                    duration,
+                    interpolator
+            ) { it.onComplete() }
+        }
+
+fun Observable<View>.setHeight(height: Int,
                                duration: Long? = null,
                                interpolator: Interpolator? = null): Observable<View> =
-        doCompletable { it.setHeightToCompletable(fromHeight, toHeight, duration, interpolator) }
+        doCompletable { it.setHeightToCompletable(height, duration, interpolator) }
+
+fun View.resizeToCompletable(width: Int, height: Int,
+                             duration: Long? = null,
+                             interpolator: Interpolator? = null): Completable =
+        setWidthToCompletable(width, duration, interpolator)
+                .mergeWith(setHeightToCompletable(height, duration, interpolator))
+
+fun Observable<View>.resize(width: Int, height: Int,
+                            duration: Long? = null,
+                            interpolator: Interpolator? = null): Observable<View> =
+        doCompletable { it.resizeToCompletable(width, height, duration, interpolator) }
 //endregion
 
 //region COLOR

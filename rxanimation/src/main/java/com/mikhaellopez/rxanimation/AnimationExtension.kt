@@ -3,11 +3,15 @@ package com.mikhaellopez.rxanimation
 import android.animation.ArgbEvaluator
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
+import android.os.Handler
 import android.support.annotation.ColorInt
+import android.util.DisplayMetrics
 import android.view.View
-import android.view.animation.Animation
 import android.view.animation.Interpolator
-import android.view.animation.Transformation
+
+private fun (() -> Any).withDelay(delay: Long = 300) {
+    Handler().postDelayed({ this.invoke() }, delay)
+}
 
 fun View.animate(alpha: Float? = null,
                  translationX: Float? = null,
@@ -54,23 +58,6 @@ fun ValueAnimator.start(duration: Long? = null,
     }.start()
 }
 
-fun View.setHeightWithAnimation(fromHeight: Int, toHeight: Int,
-                                duration: Long? = null,
-                                interpolator: Interpolator? = null,
-                                animationEnd: (() -> Unit)? = null) {
-    startAnimation(object : Animation() {
-        override fun applyTransformation(interpolatedTime: Float, transformation: Transformation) {
-            layoutParams.height = if (interpolatedTime == 1f) toHeight
-            else (fromHeight + ((toHeight - fromHeight) * interpolatedTime)).toInt()
-            requestLayout()
-        }
-    }.apply {
-        duration?.also { this.duration = it }
-        interpolator?.also { this.interpolator = it }
-        animationEnd?.also { it.withDelay(this.duration) }
-    })
-}
-
 fun View.setBackgroundColorWithAnimation(@ColorInt colorFrom: Int,
                                          @ColorInt colorTo: Int,
                                          duration: Long? = null,
@@ -79,3 +66,30 @@ fun View.setBackgroundColorWithAnimation(@ColorInt colorFrom: Int,
     ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
             .start(duration, interpolator, animationEnd) { setBackgroundColor(it as Int) }
 }
+
+//region RESIZE
+private fun View.dpToPixel(dp: Int): Int =
+        (dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
+
+fun View.setWidthWithAnimation(width: Int,
+                               duration: Long? = null,
+                               interpolator: Interpolator? = null,
+                               animationEnd: (() -> Unit)? = null) {
+    ValueAnimator.ofInt(this.width, dpToPixel(width))
+            .start(duration, interpolator, animationEnd) {
+                layoutParams.width = it as Int
+                requestLayout()
+            }
+}
+
+fun View.setHeightWithAnimation(height: Int,
+                                duration: Long? = null,
+                                interpolator: Interpolator? = null,
+                                animationEnd: (() -> Unit)? = null) {
+    ValueAnimator.ofInt(this.height, dpToPixel(height))
+            .start(duration, interpolator, animationEnd) {
+                layoutParams.height = it as Int
+                requestLayout()
+            }
+}
+//endregion
