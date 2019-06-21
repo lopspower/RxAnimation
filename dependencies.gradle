@@ -7,8 +7,8 @@ allprojects {
 
 ext {
     // APP VERSION
-    androidVersionCode          = 2
-    androidVersionName          = '0.0.2'
+    androidVersionCode          = 3
+    androidVersionName          = '0.0.3'
 
     // ANDROID VERSION
     androidCompileSdkVersion    = 28
@@ -24,7 +24,7 @@ ext {
 
     // RX
     rxAndroidVersion            = '2.1.1'
-    rxJavaVersion               = '2.2.9'
+    rxJavaVersion               = '2.2.10'
     rxKotlinVersion             = '2.3.0'
     rxBindingVersion            = '2.2.0'
     rxAndroid                   = "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
