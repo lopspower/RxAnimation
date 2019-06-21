@@ -80,7 +80,7 @@ RxAnimation.fromView(view)
         ContextCompat.getColor(this, R.color.accent),
         ContextCompat.getColor(this, R.color.primary)
     )
-    .resize(100, 100, duration)
+    .resize(100, 100)
 ```
 
 <img src="/preview/4.gif" alt="sample" title="sample" width="250" height="160" align="right" />
