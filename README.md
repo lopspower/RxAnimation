@@ -34,6 +34,8 @@ view1.setAlphaToCompletable(1f)
     .andThen(view2.resizeToCompletable(100, 100))
 ```
 
+<br/>
+
 <img src="/preview/1.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
 - If you want to apply animation in the same time you can used **`RxAnimation.together()`**:
