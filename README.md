@@ -88,12 +88,14 @@ RxAnimation.fromView(view)
 - You can also use the **`range()`** function to animate a change on a custom property:
 
 ```kotlin
-(0f to 1f).rangeFloatToCompletable { customView.customProperties = it }
+(4f, 20f).rangeFloatToCompletable { 
+    circularImageView.borderWidth = it 
+}
 
 // or
 
-RxAnimation.fromView(customView)
-    .rangeFloat(0f, 1f) { customView.customProperties = it }
+RxAnimation.fromView(circularImageView)
+    .rangeFloat(4f, 20f) { circularImageView.borderWidth = it }
 ```
 
 
