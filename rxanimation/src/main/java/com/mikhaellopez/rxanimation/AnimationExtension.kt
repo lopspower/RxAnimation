@@ -29,8 +29,8 @@ fun View.animate(alpha: Float? = null,
                  animationEnd: (() -> Unit)? = null) {
     animate().apply {
         alpha?.also { alpha(it) }
-        translationX?.also { translationX(it) }
-        translationY?.also { translationY(it) }
+        translationX?.also { translationX(dpToPixel(it)) }
+        translationY?.also { translationY(dpToPixel(it)) }
         scaleX?.also { scaleX(it) }
         scaleY?.also { scaleY(it) }
         rotation?.also { rotation(it) }
@@ -67,6 +67,9 @@ fun View.setBackgroundColorWithAnimation(colorFrom: Int,
 }
 
 //region RESIZE
+private fun View.dpToPixel(dp: Float): Float =
+        dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+
 private fun View.dpToPixel(dp: Int): Int =
         (dp * (resources.displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
 
