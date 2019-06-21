@@ -25,48 +25,63 @@ implementation 'com.mikhaellopez:rxanimation:0.0.1'
 KOTLIN
 -----
 
-- Animate your views and handle it in [Completable](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html). For example **`setAlphaToCompletable()`** and **`setTranslationXToCompletable()`**:
+<img src="/preview/0.gif" alt="sample" title="sample" width="250" height="160" align="right" />
+
+- Animate your views and handle it in [Completable](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html). For example **`setAlphaToCompletable()`** and **`resizeToCompletable()`**:
 
 ```kotlin
 view1.setAlphaToCompletable(1f)
-        .andThen(view2.setTranslationXToCompletable(300f))
+    .andThen(view2.resizeToCompletable(100, 100))
 ```
+
+<img src="/preview/1.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
 - If you want to apply animation in the same time you can used **`RxAnimation.together()`**:
 
 ```kotlin
 RxAnimation.together(
-        view1.setAlphaToCompletable(1f),
-        view1.setTranslationToCompletable(300f, 500f),
-        view2.setBackgroundColorToCompletable(
-                ContextCompat.getColor(this, R.color.accent),
-                ContextCompat.getColor(this, R.color.primary)),
-        view2.resizeToCompletable(200, 200))
+    view1.setAlphaToCompletable(1f),
+    view1.setTranslationToCompletable(20f, 30f),
+    view2.setBackgroundColorToCompletable(
+        ContextCompat.getColor(this, R.color.accent),
+        ContextCompat.getColor(this, R.color.primary)
+    ),
+    view2.resizeToCompletable(100, 100)
+)
 ```
+
+<img src="/preview/2.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
 - If you want to apply animation one by one you can used **`RxAnimation.sequentially()`** instead of multi `andThen()`:
 
 ```kotlin
 RxAnimation.sequentially(
-        view1.setAlphaToCompletable(1f),
-        view1.setTranslationToCompletable(300f, 500f),
-        view2.setBackgroundColorToCompletable(
-                ContextCompat.getColor(this, R.color.accent),
-                ContextCompat.getColor(this, R.color.primary)),
-        view2.resizeToCompletable(200, 200))
+    view1.setAlphaToCompletable(1f),
+    view1.setTranslationToCompletable(20f, 30f),
+    view2.setBackgroundColorToCompletable(
+        ContextCompat.getColor(this, R.color.accent),
+        ContextCompat.getColor(this, R.color.primary)
+    ),
+    view2.resizeToCompletable(100, 100)
+)
 ```
+
+<img src="/preview/3.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
 - You can also used **`RxAnimation.fromView(view)`** if you want to update multi properties one by one in the same view:
 
 ```kotlin
 RxAnimation.fromView(view)
-        .fadeIn()
-        .setTranslation(300f, 500f)
-        .setBackgroundColor(
-                ContextCompat.getColor(this, R.color.accent),
-                ContextCompat.getColor(this, R.color.primary))
-        .resize(200, 200)
+    .fadeIn()
+    .setTranslation(20f, 30f)
+    .setBackgroundColor(
+        ContextCompat.getColor(this, R.color.accent),
+        ContextCompat.getColor(this, R.color.primary)
+    )
+    .resize(100, 100, duration)
 ```
+
+<img src="/preview/4.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
 - You can also use the **`range()`** function to animate a change on a custom property:
 
@@ -75,8 +90,8 @@ RxAnimation.fromView(view)
 
 // or
 
-RxAnimation.fromView(view)
-        .rangeFloat(0f, 1f) { customView.customProperties = it }
+RxAnimation.fromView(customView)
+    .rangeFloat(0f, 1f) { customView.customProperties = it }
 ```
 
 
