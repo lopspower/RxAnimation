@@ -36,6 +36,7 @@ def libArtifactId = 'rxanimation'
 def libVersion = androidVersionName
 def libDesc = ''
 def libLicenses = ['Apache-2.0']
+def libSiteUrl = 'https://github.com/lopspower/RxAnimation'
 def libVCSUrl = 'https://github.com/lopspower/RxAnimation.git'
 
 // Generate Source Jar
@@ -70,6 +71,7 @@ bintray {
         name = "$libGroupId:$libArtifactId"
         desc = libDesc
         licenses = libLicenses
+        websiteUrl = libSiteUrl
         vcsUrl = libVCSUrl
         version {
             name = libVersion
