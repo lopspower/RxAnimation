@@ -19,7 +19,7 @@ USAGE
 Add RxAnimation library via Gradle:
 
 ```groovy
-implementation 'com.mikhaellopez:rxanimation:0.0.1'
+implementation 'com.mikhaellopez:rxanimation:0.0.2'
 ```
 
 KOTLIN
