@@ -42,7 +42,7 @@ view1.alpha(1f)
 
 ```kotlin
 RxAnimation.together(
-    view1.alpha(1f),
+    view1.fadeIn(),
     view1.translation(20f, 30f),
     view2.backgroundColor(
         ContextCompat.getColor(this, R.color.accent),
@@ -58,7 +58,7 @@ RxAnimation.together(
 
 ```kotlin
 RxAnimation.sequentially(
-    view1.alpha(1f),
+    view1.fadeIn(),
     view1.translation(20f, 30f),
     view2.backgroundColor(
         ContextCompat.getColor(this, R.color.accent),
