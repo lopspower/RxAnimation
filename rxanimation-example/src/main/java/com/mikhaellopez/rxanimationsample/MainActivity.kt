@@ -11,6 +11,10 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    companion object {
+        private const val ANIMATION_DURATION = 1000L // 1s
+    }
+
     private val composite = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -28,28 +32,28 @@ class MainActivity : AppCompatActivity() {
     private fun fromViewSample() {
         RxView.clicks(content).flatMap {
             RxAnimation.fromView(view)
-                    .fadeIn(2000)
-                    .setTranslation(300f, 500f, 2000)
-                    .setBackgroundColor(
-                            ContextCompat.getColor(this, R.color.accent),
-                            ContextCompat.getColor(this, R.color.primary),
-                            2000
-                    )
-                    .resize(200, 200, 2000)
+                .fadeIn(ANIMATION_DURATION)
+                .setTranslation(30f, 50f, ANIMATION_DURATION)
+                .setBackgroundColor(
+                    ContextCompat.getColor(this, R.color.accent),
+                    ContextCompat.getColor(this, R.color.primary),
+                    ANIMATION_DURATION
+                )
+                .resize(200, 200, ANIMATION_DURATION)
         }.subscribe().addTo(composite)
     }
 
     private fun sequentiallySample() {
         RxView.clicks(content).flatMapCompletable {
             RxAnimation.sequentially(
-                    view.fadeIn(2000),
-                    view.setTranslationToCompletable(300f, 500f, 2000),
-                    view.setBackgroundColorToCompletable(
-                            ContextCompat.getColor(this, R.color.accent),
-                            ContextCompat.getColor(this, R.color.primary),
-                            2000
-                    ),
-                    view.resizeToCompletable(200, 200, 2000)
+                view.fadeIn(ANIMATION_DURATION),
+                view.setTranslationToCompletable(30f, 50f, ANIMATION_DURATION),
+                view.setBackgroundColorToCompletable(
+                    ContextCompat.getColor(this, R.color.accent),
+                    ContextCompat.getColor(this, R.color.primary),
+                    ANIMATION_DURATION
+                ),
+                view.resizeToCompletable(200, 200, ANIMATION_DURATION)
             )
         }.subscribe().addTo(composite)
     }
@@ -57,14 +61,14 @@ class MainActivity : AppCompatActivity() {
     private fun togetherSample() {
         RxView.clicks(content).flatMapCompletable {
             RxAnimation.together(
-                    view.setAlphaToCompletable(1f, 2000),
-                    view.setTranslationToCompletable(300f, 500f, 2000),
-                    view.setBackgroundColorToCompletable(
-                            ContextCompat.getColor(this, R.color.accent),
-                            ContextCompat.getColor(this, R.color.primary),
-                            2000
-                    ),
-                    view.resizeToCompletable(200, 200, 2000)
+                view.setAlphaToCompletable(1f, ANIMATION_DURATION),
+                view.setTranslationToCompletable(30f, 50f, ANIMATION_DURATION),
+                view.setBackgroundColorToCompletable(
+                    ContextCompat.getColor(this, R.color.accent),
+                    ContextCompat.getColor(this, R.color.primary),
+                    ANIMATION_DURATION
+                ),
+                view.resizeToCompletable(200, 200, ANIMATION_DURATION)
             )
         }.subscribe().addTo(composite)
     }
