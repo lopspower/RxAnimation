@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="@string/click_to_run_the_animation"
+        android:textColor="@color/primary"
+        android:textSize="16sp" />
 
     <View
         android:id="@+id/view"
@@ -15,4 +22,4 @@
         android:background="@color/accent"
         tools:alpha="1" />
 
-</LinearLayout>
+</FrameLayout>

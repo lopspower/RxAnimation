@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">RxAnimation</string>
+    <string name="click_to_run_the_animation">Click to run the animation</string>
 </resources>

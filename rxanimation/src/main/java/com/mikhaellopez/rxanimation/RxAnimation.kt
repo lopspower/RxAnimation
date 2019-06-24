@@ -6,10 +6,10 @@ import io.reactivex.Observable
 
 object RxAnimation {
 
-    fun fromView(view: View): Observable<View> = Observable.just(view)
+    fun from(view: View): Observable<View> = Observable.just(view)
 
     fun together(vararg completables: Completable): Completable =
-        Completable.mergeArray(*completables)
+            Completable.mergeArray(*completables)
 
     fun sequentially(vararg completables: Completable): Completable =
             completables.first().run {
