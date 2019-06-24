@@ -32,28 +32,28 @@ class MainActivity : AppCompatActivity() {
     private fun fromViewSample() {
         RxView.clicks(content).flatMap {
             RxAnimation.fromView(view)
-                .fadeIn(ANIMATION_DURATION)
-                .setTranslation(30f, 50f, ANIMATION_DURATION)
-                .setBackgroundColor(
-                    ContextCompat.getColor(this, R.color.accent),
-                    ContextCompat.getColor(this, R.color.primary),
-                    ANIMATION_DURATION
-                )
-                .resize(200, 200, ANIMATION_DURATION)
+                    .fadeIn(ANIMATION_DURATION)
+                    .setTranslation(30f, 50f, ANIMATION_DURATION)
+                    .setBackgroundColor(
+                            ContextCompat.getColor(this, R.color.accent),
+                            ContextCompat.getColor(this, R.color.primary),
+                            ANIMATION_DURATION
+                    )
+                    .resize(200, 200, ANIMATION_DURATION)
         }.subscribe().addTo(composite)
     }
 
     private fun sequentiallySample() {
         RxView.clicks(content).flatMapCompletable {
             RxAnimation.sequentially(
-                view.fadeIn(ANIMATION_DURATION),
-                view.setTranslationToCompletable(30f, 50f, ANIMATION_DURATION),
-                view.setBackgroundColorToCompletable(
-                    ContextCompat.getColor(this, R.color.accent),
-                    ContextCompat.getColor(this, R.color.primary),
-                    ANIMATION_DURATION
-                ),
-                view.resizeToCompletable(200, 200, ANIMATION_DURATION)
+                    view.fadeIn(ANIMATION_DURATION),
+                    view.setTranslationToCompletable(30f, 50f, ANIMATION_DURATION),
+                    view.setBackgroundColorToCompletable(
+                            ContextCompat.getColor(this, R.color.accent),
+                            ContextCompat.getColor(this, R.color.primary),
+                            ANIMATION_DURATION
+                    ),
+                    view.resizeToCompletable(200, 200, ANIMATION_DURATION)
             )
         }.subscribe().addTo(composite)
     }
@@ -61,14 +61,14 @@ class MainActivity : AppCompatActivity() {
     private fun togetherSample() {
         RxView.clicks(content).flatMapCompletable {
             RxAnimation.together(
-                view.setAlphaToCompletable(1f, ANIMATION_DURATION),
-                view.setTranslationToCompletable(30f, 50f, ANIMATION_DURATION),
-                view.setBackgroundColorToCompletable(
-                    ContextCompat.getColor(this, R.color.accent),
-                    ContextCompat.getColor(this, R.color.primary),
-                    ANIMATION_DURATION
-                ),
-                view.resizeToCompletable(200, 200, ANIMATION_DURATION)
+                    view.setAlphaToCompletable(1f, ANIMATION_DURATION),
+                    view.setTranslationToCompletable(30f, 50f, ANIMATION_DURATION),
+                    view.setBackgroundColorToCompletable(
+                            ContextCompat.getColor(this, R.color.accent),
+                            ContextCompat.getColor(this, R.color.primary),
+                            ANIMATION_DURATION
+                    ),
+                    view.resizeToCompletable(200, 200, ANIMATION_DURATION)
             )
         }.subscribe().addTo(composite)
     }

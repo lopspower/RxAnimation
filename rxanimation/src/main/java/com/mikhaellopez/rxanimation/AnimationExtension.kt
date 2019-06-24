@@ -6,10 +6,16 @@ import android.animation.ValueAnimator
 import android.os.Handler
 import android.util.DisplayMetrics
 import android.view.View
+import android.view.ViewPropertyAnimator
+import android.view.animation.CycleInterpolator
 import android.view.animation.Interpolator
 
 private fun (() -> Any).withDelay(delay: Long = 300) {
     Handler().postDelayed({ this.invoke() }, delay)
+}
+
+fun ViewPropertyAnimator.animate(animationEnd: (() -> Unit)? = null) {
+    withEndAction { animationEnd?.invoke() }.start()
 }
 
 fun View.animate(alpha: Float? = null,
@@ -42,7 +48,7 @@ fun View.animate(alpha: Float? = null,
         duration?.also { this.duration = it }
         interpolator?.also { this.interpolator = it }
         startDelay?.also { this.startDelay = it }
-    }.withEndAction { animationEnd?.invoke() }.start()
+    }.animate(animationEnd)
 }
 
 fun ValueAnimator.start(duration: Long? = null,
@@ -64,6 +70,16 @@ fun View.setBackgroundColorWithAnimation(colorFrom: Int,
                                          animationEnd: (() -> Unit)? = null) {
     ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
             .start(duration, interpolator, animationEnd) { setBackgroundColor(it as Int) }
+}
+
+fun View.shake(animationEnd: (() -> Unit)? = null) {
+    animate().apply {
+        translationX(-15f)
+        translationX(15f)
+        duration = 30
+        interpolator = CycleInterpolator(5f) // 150 / 30
+        duration = 150
+    }.animate(animationEnd)
 }
 
 //region RESIZE

@@ -3,6 +3,7 @@ package com.mikhaellopez.rxanimation
 import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.view.View
+import android.view.ViewPropertyAnimator
 import android.view.animation.Interpolator
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -55,6 +56,13 @@ fun Observable<View>.startValueAnimator(valueAnimator: ValueAnimator,
                                         duration: Long? = null,
                                         action: (Any) -> Unit): Observable<View> =
         doCompletable { valueAnimator.startToCompletable(duration, action) }
+//endregion
+
+//region VIEW PROPERTY ANIMATOR
+fun ViewPropertyAnimator.animate(): Completable =
+        Completable.create {
+            animate { it.onComplete() }
+        }
 //endregion
 
 //region RANGE
@@ -425,4 +433,14 @@ fun Observable<View>.setBackgroundColor(colorFrom: Int,
                                         duration: Long? = null,
                                         interpolator: Interpolator? = null): Observable<View> =
         doCompletable { it.setBackgroundColorToCompletable(colorFrom, colorTo, duration, interpolator) }
+//endregion
+
+//region SHAKE
+fun View.shake(): Completable =
+        Completable.create {
+            shake { it.onComplete() }
+        }
+
+fun Observable<View>.shake(): Observable<View> =
+        doCompletable { it.shake() }
 //endregion
