@@ -19,7 +19,7 @@ USAGE
 Add RxAnimation library via Gradle:
 
 ```groovy
-implementation 'com.mikhaellopez:rxanimation:0.0.2'
+implementation 'com.mikhaellopez:rxanimation:0.0.3'
 ```
 
 KOTLIN
@@ -27,11 +27,11 @@ KOTLIN
 
 <img src="/preview/0.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
-- Animate your views and handle it in [Completable](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html). For example **`setAlphaToCompletable()`** and **`resizeToCompletable()`**:
+- Animate your views and handle it in [Completable](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html). For example **`alpha()`** and **`resize()`**:
 
 ```kotlin
-view1.setAlphaToCompletable(1f)
-    .andThen(view2.resizeToCompletable(100, 100))
+view1.alpha(1f)
+    .andThen(view2.resize(100, 100))
 ```
 
 <br/>
@@ -42,13 +42,13 @@ view1.setAlphaToCompletable(1f)
 
 ```kotlin
 RxAnimation.together(
-    view1.setAlphaToCompletable(1f),
-    view1.setTranslationToCompletable(20f, 30f),
-    view2.setBackgroundColorToCompletable(
+    view1.alpha(1f),
+    view1.translation(20f, 30f),
+    view2.backgroundColor(
         ContextCompat.getColor(this, R.color.accent),
         ContextCompat.getColor(this, R.color.primary)
     ),
-    view2.resizeToCompletable(100, 100)
+    view2.resize(100, 100)
 )
 ```
 
@@ -58,13 +58,13 @@ RxAnimation.together(
 
 ```kotlin
 RxAnimation.sequentially(
-    view1.setAlphaToCompletable(1f),
-    view1.setTranslationToCompletable(20f, 30f),
-    view2.setBackgroundColorToCompletable(
+    view1.alpha(1f),
+    view1.translation(20f, 30f),
+    view2.backgroundColor(
         ContextCompat.getColor(this, R.color.accent),
         ContextCompat.getColor(this, R.color.primary)
     ),
-    view2.resizeToCompletable(100, 100)
+    view2.resize(100, 100)
 )
 ```
 
@@ -75,8 +75,8 @@ RxAnimation.sequentially(
 ```kotlin
 RxAnimation.fromView(view)
     .fadeIn()
-    .setTranslation(20f, 30f)
-    .setBackgroundColor(
+    .translation(20f, 30f)
+    .backgroundColor(
         ContextCompat.getColor(this, R.color.accent),
         ContextCompat.getColor(this, R.color.primary)
     )
@@ -102,27 +102,34 @@ RxAnimation.fromView(circularImageView)
 ALL PROPERTIES
 -----
 
-Properties | View | Completable | RxAnimation.fromView(view)
------------- | ------------ | ------------- | -------------
-alpha | animate(alpha = value) | setAlphaToCompletable | setAlpha
-translationX | animate(translationX = value) | setTranslationXToCompletable | setTranslationX
-translationY | animate(translationY = value) | setTranslationYToCompletable | setTranslationY
-scaleX | animate(scaleX = value) | setScaleXToCompletable | setScaleX
-scaleY | animate(scaleY = value) | setScaleYToCompletable | setScaleY
-rotation | animate(rotation = value) | setRotationToCompletable | setRotation
-rotationX | animate(rotationX = value) | setRotationXToCompletable | setRotationX
-rotationY | animate(rotationY = value) | setRotationYToCompletable | setRotationY
-X | animate(X = value) | setXToCompletable | setX
-Y | animate(Y = value) | setYToCompletable | setY
-Z | animate(Z = value) | setZToCompletable | setZ
-backgroundColor | setBackgroundColorWithAnimation | setBackgroundColorToCompletable | setBackgroundColor
-width | setWidth | setWidthToCompletable | setWidth
-height | setHeight | setHeightToCompletable | setHeight
-resize | - | resizeToCompletable | resize
-customProperties | - | rangeFloatToCompletable | rangeFloat
-customProperties | - | rangeIntToCompletable | rangeInt
-customProperties | - | rangeIntToCompletable | rangeInt
-ValueAnimator | start | startToCompletable | startValueAnimator
+Properties | View to Completable | RxAnimation.from(view)
+------------ | ------------ | -------------
+alpha | alpha | alpha
+alpha=1 | fadeIn | fadeIn
+alpha=0 | fadeOut | fadeOut
+translationX | translationX | translationX
+translationY | translationY | translationY
+translationX + Y | translation(X, Y) | translation(X, Y)
+scaleX | scaleX | scaleX
+scaleY | scaleY | scaleY
+rotation | rotation | rotation
+rotationX | rotationX | rotationX
+rotationY | rotationY | rotationY
+X | x | x
+Y | y | y
+Z | z | z
+X + Y + Z | xyz | xyz
+backgroundColor | backgroundColor | backgroundColor
+width | width | width
+height | height | height
+width + height | resize | resize
+customProperties | rangeFloatToCompletable | rangeFloat
+customProperties | rangeIntToCompletable | rangeInt
+customProperties | rangeIntToCompletable | rangeInt
+ValueAnimator | start | startValueAnimator
+ViewPropertyAnimator | animate | -
+
+:information_source: All the functions have `duration: Long`, `interpolator: TimeInterpolator` & `startDelay: Long` properties.
 
 LICENCE
 -----
