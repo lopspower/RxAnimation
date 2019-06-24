@@ -26,8 +26,7 @@ dependencies {
     // KOTLIN
     implementation kotlinStdlib
     // RX
-    implementation rxAndroid
-    implementation rxKotlin
+    implementation rxJava
 }
 
 //region Publish to jCenter
