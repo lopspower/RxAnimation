@@ -33,7 +33,7 @@ dependencies {
 def libGroupId = 'com.mikhaellopez'
 def libArtifactId = 'rxanimation'
 def libVersion = androidVersionName
-def libDesc = ''
+def libDesc = 'Simple way to animate your views on Android with Rx'
 def libLicenses = ['Apache-2.0']
 def libSiteUrl = 'https://github.com/lopspower/RxAnimation'
 def libVCSUrl = 'https://github.com/lopspower/RxAnimation.git'
