@@ -21,6 +21,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt')
         }
     }
+    lintOptions {
+        disable 'ContentDescription'
+    }
 }
 
 dependencies {
@@ -31,8 +34,11 @@ dependencies {
     implementation kotlinStdlib
     // ANDROID
     implementation androidXAppCompat
+    implementation cardView
     // RX
     implementation rxAndroid
     implementation rxKotlin
     implementation rxBinding
+    // UI
+    implementation circleView
 }

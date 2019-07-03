@@ -5,7 +5,6 @@ import android.animation.TimeInterpolator
 import android.animation.ValueAnimator
 import android.content.res.Resources
 import android.os.Handler
-import android.util.DisplayMetrics
 import android.view.View
 import android.view.ViewPropertyAnimator
 import android.view.animation.CycleInterpolator
@@ -17,11 +16,11 @@ import io.reactivex.Observable
 private fun Observable<View>.doCompletable(actionCompletable: (View) -> Completable): Observable<View> =
         flatMap { actionCompletable(it).toSingleDefault(it).toObservable() }
 
-private fun Float.dpToPixel(): Float =
-        this * (Resources.getSystem().displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)
+private fun Float.dpToPx(): Float =
+    this * Resources.getSystem().displayMetrics.density
 
-private fun Int.dpToPixel(): Int =
-        (this * (Resources.getSystem().displayMetrics.densityDpi.toFloat() / DisplayMetrics.DENSITY_DEFAULT)).toInt()
+private fun Int.dpToPx(): Int =
+    (this * Resources.getSystem().displayMetrics.density).toInt()
 
 private fun (() -> Any).withDelay(delay: Long = 300) {
     Handler().postDelayed({ this.invoke() }, delay)
@@ -50,8 +49,8 @@ fun View.animate(alpha: Float? = null,
         Completable.create {
             animate().apply {
                 alpha?.also { alpha(it) }
-                translationX?.also { translationX(it.dpToPixel()) }
-                translationY?.also { translationY(it.dpToPixel()) }
+                translationX?.also { translationX(it.dpToPx()) }
+                translationY?.also { translationY(it.dpToPx()) }
                 scaleX?.also { scaleX(it) }
                 scaleY?.also { scaleY(it) }
                 rotation?.also { rotation(it) }
@@ -225,23 +224,21 @@ fun Observable<View>.translationY(translationY: Float,
 //endregion
 
 //region SCALE
-fun View.scale(scaleX: Float,
-               scaleY: Float,
+fun View.scale(scale: Float,
                duration: Long? = null,
                interpolator: TimeInterpolator? = null,
                startDelay: Long? = null): Completable =
-        animate(scaleX = scaleX,
-                scaleY = scaleY,
+        animate(scaleX = scale,
+                scaleY = scale,
                 duration = duration,
                 interpolator = interpolator,
                 startDelay = startDelay)
 
-fun Observable<View>.scale(scaleX: Float,
-                           scaleY: Float,
+fun Observable<View>.scale(scale: Float,
                            duration: Long? = null,
                            interpolator: TimeInterpolator? = null,
                            startDelay: Long? = null): Observable<View> =
-        doCompletable { it.scale(scaleX, scaleY, duration, interpolator, startDelay) }
+        doCompletable { it.scale(scale, duration, interpolator, startDelay) }
 
 fun View.scaleX(scaleX: Float,
                 duration: Long? = null,
@@ -394,7 +391,7 @@ fun View.width(width: Int,
                duration: Long? = null,
                interpolator: Interpolator? = null): Completable =
         Completable.create {
-            ValueAnimator.ofInt(this.width, width.dpToPixel())
+            ValueAnimator.ofInt(this.width, width.dpToPx())
                     .start(duration, interpolator,
                             animationEnd = { it.onComplete() }) {
                         layoutParams.width = it as Int
@@ -411,7 +408,7 @@ fun View.height(height: Int,
                 duration: Long? = null,
                 interpolator: Interpolator? = null): Completable =
         Completable.create {
-            ValueAnimator.ofInt(this.height, height.dpToPixel())
+            ValueAnimator.ofInt(this.height, height.dpToPx())
                     .start(duration, interpolator,
                             animationEnd = { it.onComplete() }) {
                         layoutParams.height = it as Int
@@ -457,18 +454,35 @@ fun Observable<View>.backgroundColor(colorFrom: Int,
 //endregion
 
 //region SHAKE
-fun View.shake(duration: Long = 600,
-               nbShake: Float = 4f,
-               shakeTranslation: Float = 7f): Completable =
+fun View.shake(duration: Long = 300,
+               nbShake: Float = 2f,
+               shakeTranslation: Float = 5f): Completable =
         Completable.create {
             animate().apply {
                 this.duration = duration
                 interpolator = CycleInterpolator(nbShake)
-                translationX(-shakeTranslation.dpToPixel())
-                translationX(shakeTranslation.dpToPixel())
+                translationX(-shakeTranslation.dpToPx())
+                translationX(shakeTranslation.dpToPx())
             }.animate { it.onComplete() }
         }
 
-fun Observable<View>.shake(): Observable<View> =
-        doCompletable { it.shake() }
+fun Observable<View>.shake(duration: Long = 300,
+                           nbShake: Float = 2f,
+                           shakeTranslation: Float = 5f): Observable<View> =
+        doCompletable { it.shake(duration, nbShake, shakeTranslation) }
+//endregion
+
+//region PRESS
+fun View.press(depth: Float = 0.95f,
+               duration: Long? = null,
+               interpolator: TimeInterpolator? = null,
+               startDelay: Long? = null): Completable =
+        scale(depth, (duration ?: 300) / 2, interpolator, startDelay)
+                .andThen(scale(1f, (duration ?: 300) / 2, interpolator))
+
+fun Observable<View>.press(depth: Float = 0.95f,
+                           duration: Long? = null,
+                           interpolator: TimeInterpolator? = null,
+                           startDelay: Long? = null): Observable<View> =
+        doCompletable { it.press(depth, duration, interpolator, startDelay) }
 //endregion

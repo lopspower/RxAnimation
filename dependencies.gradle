@@ -7,8 +7,8 @@ allprojects {
 
 ext {
     // APP VERSION
-    androidVersionCode          = 3
-    androidVersionName          = '0.0.3'
+    androidVersionCode          = 4
+    androidVersionName          = '0.0.4'
 
     // ANDROID VERSION
     androidCompileSdkVersion    = 28
@@ -20,7 +20,9 @@ ext {
 
     // ANDROID LIB
     androidAppCompatXVersion    = '1.0.2'
+    cardViewVersion             = '1.0.0'
     androidXAppCompat           = "androidx.appcompat:appcompat:$androidAppCompatXVersion"
+    cardView                    = "androidx.cardview:cardview:$cardViewVersion"
 
     // RX
     rxAndroidVersion            = '2.1.1'
@@ -31,5 +33,9 @@ ext {
     rxJava                      = "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     rxKotlin                    = "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
     rxBinding                   = "com.jakewharton.rxbinding2:rxbinding-kotlin:$rxBindingVersion"
+
+    // UI
+    circleViewVersion           = '1.1.1'
+    circleView                  = "com.mikhaellopez:circleview:$circleViewVersion"
 
 }
