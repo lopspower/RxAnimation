@@ -73,10 +73,10 @@ RxAnimation.sequentially(
 
 <img src="/preview/3.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
-- You can also used **`RxAnimation.fromView(view)`** if you want to update multi properties one by one in the same view:
+- You can also used **`RxAnimation.from(view)`** if you want to update multi properties one by one in the same view:
 
 ```kotlin
-RxAnimation.fromView(view)
+RxAnimation.from(view)
     .fadeIn()
     .translation(20f, 30f)
     .backgroundColor(
@@ -97,7 +97,7 @@ RxAnimation.fromView(view)
 
 // or
 
-RxAnimation.fromView(circularImageView)
+RxAnimation.from(circularImageView)
     .rangeFloat(4f, 20f) { circularImageView.borderWidth = it }
 ```
 
