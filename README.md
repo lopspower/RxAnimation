@@ -136,14 +136,13 @@ View to Completable | RxAnimation.from(view)
 ------------ | -------------
 rangeFloatToCompletable | rangeFloat
 rangeIntToCompletable | rangeInt
-rangeIntToCompletable | rangeInt
 
 #### Smart function
 
 Animation | View to Completable | RxAnimation.from(view)
 ------------ | ------------ | -------------
-alpha=1 | fadeIn | fadeIn
-alpha=0 | fadeOut | fadeOut
+alpha=1f | fadeIn | fadeIn
+alpha=0f | fadeOut | fadeOut
 shake | shake | shake
 press | press | press
 
