@@ -22,7 +22,7 @@ USAGE
 Add RxAnimation library via Gradle:
 
 ```groovy
-implementation 'com.mikhaellopez:rxanimation:0.0.3'
+implementation 'com.mikhaellopez:rxanimation:0.0.4'
 ```
 
 KOTLIN
