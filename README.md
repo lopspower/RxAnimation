@@ -132,6 +132,7 @@ customProperties | rangeIntToCompletable | rangeInt
 ValueAnimator | start | startValueAnimator
 ViewPropertyAnimator | animate | -
 shake | shake | shake
+press | press | press
 
 :information_source: All the functions have `duration: Long`, `interpolator: TimeInterpolator` & `startDelay: Long` properties.
 
