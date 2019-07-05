@@ -105,16 +105,17 @@ RxAnimation.from(circularImageView)
 ALL PROPERTIES
 -----
 
+#### Default
+
 Properties | View to Completable | RxAnimation.from(view)
 ------------ | ------------ | -------------
 alpha | alpha | alpha
-alpha=1 | fadeIn | fadeIn
-alpha=0 | fadeOut | fadeOut
 translationX | translationX | translationX
 translationY | translationY | translationY
-translationX + Y | translation(X, Y) | translation(X, Y)
+translation X + Y | translation(X, Y) | translation(X, Y)
 scaleX | scaleX | scaleX
 scaleY | scaleY | scaleY
+scale X = Y | scale | scale
 rotation | rotation | rotation
 rotationX | rotationX | rotationX
 rotationY | rotationY | rotationY
@@ -126,11 +127,23 @@ backgroundColor | backgroundColor | backgroundColor
 width | width | width
 height | height | height
 width + height | resize | resize
-customProperties | rangeFloatToCompletable | rangeFloat
-customProperties | rangeIntToCompletable | rangeInt
-customProperties | rangeIntToCompletable | rangeInt
 ValueAnimator | start | startValueAnimator
 ViewPropertyAnimator | animate | -
+
+#### Custom Properties
+
+View to Completable | RxAnimation.from(view)
+------------ | -------------
+rangeFloatToCompletable | rangeFloat
+rangeIntToCompletable | rangeInt
+rangeIntToCompletable | rangeInt
+
+#### Smart function
+
+Animation | View to Completable | RxAnimation.from(view)
+------------ | ------------ | -------------
+alpha=1 | fadeIn | fadeIn
+alpha=0 | fadeOut | fadeOut
 shake | shake | shake
 press | press | press
 
