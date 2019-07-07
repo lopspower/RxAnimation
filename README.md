@@ -22,7 +22,7 @@ USAGE
 Add RxAnimation library via Gradle:
 
 ```groovy
-implementation 'com.mikhaellopez:rxanimation:0.0.4'
+implementation 'com.mikhaellopez:rxanimation:0.0.5'
 ```
 
 KOTLIN
@@ -101,6 +101,23 @@ RxAnimation.from(circularImageView)
     .rangeFloat(4f, 20f) { circularImageView.borderWidth = it }
 ```
 
+- Use `reverse` properties to back to the initial value in all methods:
+
+```kotlin
+view.fadeIn(reverse = true)
+```
+
+- If you want to repeat an animation you can use the native method [`repeat`](http://reactivex.io/documentation/operators/repeat.html) from Rx like this:
+
+```kotlin
+RxAnimation.from(view)
+    .fadeIn()
+    .shake()
+    .fadeOut()
+    .repeat(NB_REPEAT)
+    .subscribe()
+```
+
 
 ALL PROPERTIES
 -----
@@ -146,7 +163,7 @@ alpha=0f | fadeOut | fadeOut
 shake | shake | shake
 press | press | press
 
-:information_source: All the functions have `duration: Long`, `interpolator: TimeInterpolator` & `startDelay: Long` properties.
+:information_source: All the functions have `duration: Long`, `interpolator: TimeInterpolator`, `startDelay: Long` and `reverse: Boolean` properties.
 
 LICENCE
 -----
