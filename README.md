@@ -1,7 +1,7 @@
+<img src="/preview/title.gif" alt="title" title="title" width="410" height="120" />
+
 RxAnimation
 =================
-
-<img src="/preview/preview.gif" alt="preview" title="preview" width="350" height="215,25" align="right" />
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
