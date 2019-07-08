@@ -1,4 +1,4 @@
-<img src="/preview/title.gif" alt="title" title="title" width="410" height="120" />
+<img src="/preview/title.gif" alt="title" title="title" width="300" height="87.8" />
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
