@@ -1,16 +1,14 @@
 package com.mikhaellopez.rxanimation
 
-import android.animation.ArgbEvaluator
-import android.animation.TimeInterpolator
-import android.animation.ValueAnimator
+import android.animation.*
 import android.annotation.TargetApi
 import android.content.res.Resources
 import android.os.Build
-import android.os.Handler
 import android.view.View
 import android.view.ViewPropertyAnimator
 import android.view.animation.CycleInterpolator
 import android.view.animation.Interpolator
+import android.widget.TextView
 import io.reactivex.Completable
 import io.reactivex.Observable
 
@@ -29,10 +27,6 @@ private fun Int.dpToPx(): Int =
 
 private fun Int.pxToDp(): Int =
         (this / Resources.getSystem().displayMetrics.density).toInt()
-
-private fun (() -> Any).withDelay(delay: Long = 300) {
-    Handler().postDelayed({ this.invoke() }, delay)
-}
 
 private fun ViewPropertyAnimator.animate(animationEnd: (() -> Unit)? = null) {
     withEndAction { animationEnd?.invoke() }.start()
@@ -83,7 +77,14 @@ private fun ValueAnimator.start(duration: Long? = null,
         duration?.also { this.duration = it }
         interpolator?.also { this.interpolator = interpolator }
         addUpdateListener { action(it.animatedValue) }
-        animationEnd?.also { it.withDelay(this.duration) }
+        animationEnd?.also {
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    super.onAnimationEnd(animation)
+                    it()
+                }
+            })
+        }
     }.start()
 }
 
@@ -664,4 +665,28 @@ fun Observable<View>.press(depth: Float = 0.95f,
                            interpolator: TimeInterpolator? = null,
                            startDelay: Long? = null): Observable<View> =
         doCompletable { it.press(depth, duration, interpolator, startDelay) }
+//endregion
+
+//region TEXT
+fun TextView.text(text: String,
+                  duration: Long = 300L,
+                  interpolator: TimeInterpolator? = null,
+                  startDelay: Long? = null,
+                  reverse: Boolean = false): Completable =
+        Observable.just(this.text.toString())
+                .flatMapCompletable { defaultText ->
+                    fadeOut(duration / 2, interpolator, startDelay)
+                            .doOnComplete { this.text = text }
+                            .andThen(fadeIn(duration / 2, interpolator, startDelay = 300L))
+                            .reverse(reverse) {
+                                text(defaultText, duration, interpolator)
+                            }
+                }
+
+fun Observable<TextView>.text(text: String,
+                              duration: Long = 300L,
+                              interpolator: TimeInterpolator? = null,
+                              startDelay: Long? = null,
+                              reverse: Boolean = false): Observable<View> =
+        flatMap { it.text(text, duration, interpolator, startDelay, reverse).toSingleDefault(it).toObservable() }
 //endregion

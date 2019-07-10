@@ -90,6 +90,11 @@ class MainActivity : AppCompatActivity() {
                         cardCustomProperties.radius = it.dpToPx()
                     }
                 }.subscribe().addTo(composite)
+
+        btnText.throttleClick(ANIMATION_DURATION)
+                .switchMapCompletable {
+                    textToSetText.text("Amazing", ANIMATION_DURATION, reverse = true)
+                }.subscribe().addTo(composite)
     }
 
     override fun onPause() {

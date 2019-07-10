@@ -7,6 +7,7 @@
     android:fillViewport="true">
 
     <LinearLayout
+        android:id="@+id/view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#666"
@@ -201,6 +202,28 @@
                 android:background="@color/primary"
                 android:text="custom Properties"
                 android:textColor="@color/white"
+                tools:ignore="HardcodedText" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/btnText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            app:cardBackgroundColor="@color/primary"
+            app:cardElevation="0dp">
+
+            <TextView
+                android:id="@+id/textToSetText"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:layout_margin="5dp"
+                android:gravity="center"
+                android:text="text"
+                android:textAllCaps="true"
+                android:textColor="@color/white"
+                android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
         </androidx.cardview.widget.CardView>
