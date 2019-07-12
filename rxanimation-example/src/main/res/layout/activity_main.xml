@@ -222,8 +222,8 @@
                 android:gravity="center"
                 android:text="text"
                 android:textAllCaps="true"
+                android:textAppearance="?android:attr/textAppearanceButton"
                 android:textColor="@color/white"
-                android:textStyle="bold"
                 tools:ignore="HardcodedText" />
 
         </androidx.cardview.widget.CardView>
