@@ -19,7 +19,7 @@ USAGE
 Add RxAnimation library via Gradle:
 
 ```groovy
-implementation 'com.mikhaellopez:rxanimation:0.0.5'
+implementation 'com.mikhaellopez:rxanimation:0.0.6'
 ```
 
 KOTLIN
@@ -159,6 +159,7 @@ alpha=1f | fadeIn | fadeIn
 alpha=0f | fadeOut | fadeOut
 shake | shake | shake
 press | press | press
+text | text | text
 
 :information_source: All the functions have `duration: Long`, `interpolator: TimeInterpolator`, `startDelay: Long` and `reverse: Boolean` properties.
 
