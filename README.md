@@ -27,7 +27,7 @@ KOTLIN
 
 <img src="/preview/0.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
-- Animate your views and handle it in [Completable](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html). For example **`alpha()`** and **`resize()`**:
+-  Animate your views and handle it in [Completable](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html). For example **`alpha()`** and **`resize()`**:
 
 ```kotlin
 view1.alpha(1f)
