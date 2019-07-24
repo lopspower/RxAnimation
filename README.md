@@ -27,7 +27,7 @@ KOTLIN
 
 <img src="/preview/0.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
--  Animate your views and handle it in [Completable](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html). For example **`alpha()`** and **`resize()`**:
+Animate your views and handle it in [Completable](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html). For example **`alpha()`** and **`resize()`**:
 
 ```kotlin
 view1.alpha(1f)
@@ -38,7 +38,7 @@ view1.alpha(1f)
 
 <img src="/preview/1.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
-- If you want to apply animation in the same time you can used **`RxAnimation.together()`**:
+If you want to apply animation in the same time you can used **`RxAnimation.together()`**:
 
 ```kotlin
 RxAnimation.together(
@@ -54,7 +54,7 @@ RxAnimation.together(
 
 <img src="/preview/2.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
-- If you want to apply animation one by one you can used **`RxAnimation.sequentially()`** instead of multi `andThen()`:
+If you want to apply animation one by one you can used **`RxAnimation.sequentially()`** instead of multi `andThen()`:
 
 ```kotlin
 RxAnimation.sequentially(
@@ -70,7 +70,7 @@ RxAnimation.sequentially(
 
 <img src="/preview/3.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
-- You can also used **`RxAnimation.from(view)`** if you want to update multi properties one by one in the same view:
+You can also used **`RxAnimation.from(view)`** if you want to update multi properties one by one in the same view:
 
 ```kotlin
 RxAnimation.from(view)
@@ -85,7 +85,7 @@ RxAnimation.from(view)
 
 <img src="/preview/4.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
-- You can also use the **`range()`** function to animate a change on a custom property:
+You can also use the **`range()`** function to animate a change on a custom property:
 
 ```kotlin
 (4f, 20f).rangeFloatToCompletable { 
@@ -98,13 +98,13 @@ RxAnimation.from(circularImageView)
     .rangeFloat(4f, 20f) { circularImageView.borderWidth = it }
 ```
 
-- Use `reverse` properties to back to the initial value in all methods:
+Use `reverse` properties to back to the initial value in all methods:
 
 ```kotlin
 view.fadeIn(reverse = true)
 ```
 
-- If you want to repeat an animation you can use the native method [`repeat`](http://reactivex.io/documentation/operators/repeat.html) from Rx like this:
+If you want to repeat an animation you can use the native method [`repeat`](http://reactivex.io/documentation/operators/repeat.html) from Rx like this:
 
 ```kotlin
 RxAnimation.from(view)
