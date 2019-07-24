@@ -115,51 +115,50 @@ RxAnimation.from(view)
     .subscribe()
 ```
 
-
 ALL PROPERTIES
 -----
 
-#### Default
+### Default
 
-Properties | View to Completable | RxAnimation.from(view)
------------- | ------------ | -------------
-alpha | alpha | alpha
-translationX | translationX | translationX
-translationY | translationY | translationY
-translation X + Y | translation(X, Y) | translation(X, Y)
-scaleX | scaleX | scaleX
-scaleY | scaleY | scaleY
-scale X = Y | scale | scale
-rotation | rotation | rotation
-rotationX | rotationX | rotationX
-rotationY | rotationY | rotationY
-X | x | x
-Y | y | y
-Z | z | z
-X + Y + Z | xyz | xyz
-backgroundColor | backgroundColor | backgroundColor
-width | width | width
-height | height | height
-width + height | resize | resize
-ValueAnimator | start | startValueAnimator
-ViewPropertyAnimator | animate | -
+| Properties           | View to Completable | RxAnimation.from(view) |
+| -------------------- | ------------------- | ---------------------- |
+| alpha                | alpha               | alpha                  |
+| translationX         | translationX        | translationX           |
+| translationY         | translationY        | translationY           |
+| translation X + Y    | translation(X, Y)   | translation(X, Y)      |
+| scaleX               | scaleX              | scaleX                 |
+| scaleY               | scaleY              | scaleY                 |
+| scale X = Y          | scale               | scale                  |
+| rotation             | rotation            | rotation               |
+| rotationX            | rotationX           | rotationX              |
+| rotationY            | rotationY           | rotationY              |
+| X                    | x                   | x                      |
+| Y                    | y                   | y                      |
+| Z                    | z                   | z                      |
+| X + Y + Z            | xyz                 | xyz                    |
+| backgroundColor      | backgroundColor     | backgroundColor        |
+| width                | width               | width                  |
+| height               | height              | height                 |
+| width + height       | resize              | resize                 |
+| ValueAnimator        | start               | startValueAnimator     |
+| ViewPropertyAnimator | animate             | -                      |
 
-#### Custom Properties
+### Custom Properties
 
-View to Completable | RxAnimation.from(view)
------------- | -------------
-rangeFloatToCompletable | rangeFloat
-rangeIntToCompletable | rangeInt
+| View to Completable     | RxAnimation.from(view) |
+| ----------------------- | ---------------------- |
+| rangeFloatToCompletable | rangeFloat             |
+| rangeIntToCompletable   | rangeInt               |
 
-#### Smart function
+### Smart function
 
-Animation | View to Completable | RxAnimation.from(view)
------------- | ------------ | -------------
-alpha=1f | fadeIn | fadeIn
-alpha=0f | fadeOut | fadeOut
-shake | shake | shake
-press | press | press
-text | text | text
+| Animation | View to Completable | RxAnimation.from(view) |
+| --------- | ------------------- | ---------------------- |
+| alpha=1f  | fadeIn              | fadeIn                 |
+| alpha=0f  | fadeOut             | fadeOut                |
+| shake     | shake               | shake                  |
+| press     | press               | press                  |
+| text      | text                | text                   |
 
 :information_source: All the functions have `duration: Long`, `interpolator: TimeInterpolator`, `startDelay: Long` and `reverse: Boolean` properties.
 
