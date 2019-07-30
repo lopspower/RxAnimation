@@ -5,6 +5,7 @@ import android.annotation.TargetApi
 import android.content.res.Resources
 import android.os.Build
 import android.view.View
+import android.view.View.LAYER_TYPE_NONE
 import android.view.ViewPropertyAnimator
 import android.view.animation.CycleInterpolator
 import android.view.animation.Interpolator
@@ -47,24 +48,33 @@ fun View.animate(alpha: Float? = null,
                  z: Float? = null,
                  duration: Long? = null,
                  interpolator: TimeInterpolator? = null,
-                 startDelay: Long? = null): Completable =
+                 startDelay: Long? = null,
+                 layerType: Int? = null): Completable =
         Completable.create {
             animate().apply {
-                alpha?.also { alpha(it) }
-                translationX?.also { translationX(it.dpToPx()) }
-                translationY?.also { translationY(it.dpToPx()) }
-                scaleX?.also { scaleX(it) }
-                scaleY?.also { scaleY(it) }
-                rotation?.also { rotation(it) }
-                rotationX?.also { rotationX(it) }
-                rotationY?.also { rotationY(it) }
-                x?.also { x(it) }
-                y?.also { x(it) }
-                z?.also { x(it) }
-                duration?.also { this.duration = it }
-                interpolator?.also { this.interpolator = it }
-                startDelay?.also { this.startDelay = it }
-            }.animate { it.onComplete() }
+            alpha?.also { alpha(it) }
+            translationX?.also { translationX(it.dpToPx()) }
+            translationY?.also { translationY(it.dpToPx()) }
+            scaleX?.also { scaleX(it) }
+            scaleY?.also { scaleY(it) }
+            rotation?.also { rotation(it) }
+            rotationX?.also { rotationX(it) }
+            rotationY?.also { rotationY(it) }
+            x?.also { x(it) }
+            y?.also { x(it) }
+            z?.also { x(it) }
+            duration?.also { this.duration = it }
+            interpolator?.also { this.interpolator = it }
+            startDelay?.also { this.startDelay = it }
+            layerType?.also {
+                tag = getLayerType()
+                setLayerType(it, null)
+                withLayer()
+            }
+        }.animate {
+                setLayerType((tag as? Int) ?: LAYER_TYPE_NONE, null)
+                it.onComplete()
+            }
         }
 //endregion
 
@@ -154,15 +164,17 @@ fun View.alpha(alpha: Float,
                duration: Long? = null,
                interpolator: TimeInterpolator? = null,
                startDelay: Long? = null,
-               reverse: Boolean = false): Completable =
+               reverse: Boolean = false,
+               layerType: Int? = null): Completable =
         Observable.just(this.alpha)
                 .flatMapCompletable { defaultAlpha ->
                     animate(alpha = alpha,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
-                                alpha(defaultAlpha, duration, interpolator)
+                                alpha(defaultAlpha, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -170,32 +182,37 @@ fun Observable<View>.alpha(alpha: Float,
                            duration: Long? = null,
                            interpolator: TimeInterpolator? = null,
                            startDelay: Long? = null,
-                           reverse: Boolean = false): Observable<View> =
-        doCompletable { it.alpha(alpha, duration, interpolator, startDelay, reverse) }
+                           reverse: Boolean = false,
+                           layerType: Int? = null): Observable<View> =
+        doCompletable { it.alpha(alpha, duration, interpolator, startDelay, reverse, layerType) }
 
 fun View.fadeIn(duration: Long? = null,
                 interpolator: TimeInterpolator? = null,
                 startDelay: Long? = null,
-                reverse: Boolean = false): Completable =
-        alpha(1f, duration, interpolator, startDelay, reverse)
+                reverse: Boolean = false,
+                layerType: Int?= null): Completable =
+        alpha(1f, duration, interpolator, startDelay, reverse, layerType)
 
 fun Observable<View>.fadeIn(duration: Long? = null,
                             interpolator: TimeInterpolator? = null,
                             startDelay: Long? = null,
-                            reverse: Boolean = false): Observable<View> =
-        doCompletable { it.fadeIn(duration, interpolator, startDelay, reverse) }
+                            reverse: Boolean = false,
+                            layerType: Int? = null): Observable<View> =
+        doCompletable { it.fadeIn(duration, interpolator, startDelay, reverse, layerType) }
 
 fun View.fadeOut(duration: Long? = null,
                  interpolator: TimeInterpolator? = null,
                  startDelay: Long? = null,
-                 reverse: Boolean = false): Completable =
-        alpha(0f, duration, interpolator, startDelay, reverse)
+                 reverse: Boolean = false,
+                 layerType: Int? = null): Completable =
+        alpha(0f, duration, interpolator, startDelay, reverse, layerType)
 
 fun Observable<View>.fadeOut(duration: Long? = null,
                              interpolator: TimeInterpolator? = null,
                              startDelay: Long? = null,
-                             reverse: Boolean = false): Observable<View> =
-        doCompletable { it.fadeOut(duration, interpolator, startDelay, reverse) }
+                             reverse: Boolean = false,
+                             layerType: Int? = null): Observable<View> =
+        doCompletable { it.fadeOut(duration, interpolator, startDelay, reverse, layerType) }
 //endregion
 
 //region TRANSLATION
@@ -204,16 +221,18 @@ fun View.translation(translationX: Float,
                      duration: Long? = null,
                      interpolator: TimeInterpolator? = null,
                      startDelay: Long? = null,
-                     reverse: Boolean = false): Completable =
+                     reverse: Boolean = false,
+                     layerType: Int? = null): Completable =
         Observable.just(this.translationX to this.translationY)
                 .flatMapCompletable { (defaultTranslationX, defaultTranslationY) ->
                     animate(translationX = translationX,
                             translationY = translationY,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
-                                translation(defaultTranslationX, defaultTranslationY, duration, interpolator)
+                                translation(defaultTranslationX, defaultTranslationY, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -222,20 +241,23 @@ fun Observable<View>.translation(translationX: Float,
                                  duration: Long? = null,
                                  interpolator: TimeInterpolator? = null,
                                  startDelay: Long? = null,
-                                 reverse: Boolean = false): Observable<View> =
-        doCompletable { it.translation(translationX, translationY, duration, interpolator, startDelay, reverse) }
+                                 reverse: Boolean = false,
+                                 layerType: Int? = null): Observable<View> =
+        doCompletable { it.translation(translationX, translationY, duration, interpolator, startDelay, reverse, layerType) }
 
 fun View.translationX(translationX: Float,
                       duration: Long? = null,
                       interpolator: TimeInterpolator? = null,
                       startDelay: Long? = null,
-                      reverse: Boolean = false): Completable =
+                      reverse: Boolean = false,
+                      layerType: Int? = null): Completable =
         Observable.just(this.translationX)
                 .flatMapCompletable { defaultTranslationX ->
                     animate(translationX = translationX,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
                                 translationX(defaultTranslationX, duration, interpolator)
                             }
@@ -245,22 +267,25 @@ fun Observable<View>.translationX(translationX: Float,
                                   duration: Long? = null,
                                   interpolator: TimeInterpolator? = null,
                                   startDelay: Long? = null,
-                                  reverse: Boolean = false): Observable<View> =
-        doCompletable { it.translationX(translationX, duration, interpolator, startDelay, reverse) }
+                                  reverse: Boolean = false,
+                                  layerType: Int? = null): Observable<View> =
+        doCompletable { it.translationX(translationX, duration, interpolator, startDelay, reverse, layerType) }
 
 fun View.translationY(translationY: Float,
                       duration: Long? = null,
                       interpolator: TimeInterpolator? = null,
                       startDelay: Long? = null,
-                      reverse: Boolean = false): Completable =
+                      reverse: Boolean = false,
+                      layerType: Int? = null): Completable =
         Observable.just(this.translationY)
                 .flatMapCompletable { defaultTranslationY ->
                     animate(translationY = translationY,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
-                                translationY(defaultTranslationY, duration, interpolator)
+                                translationY(defaultTranslationY, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -268,8 +293,9 @@ fun Observable<View>.translationY(translationY: Float,
                                   duration: Long? = null,
                                   interpolator: TimeInterpolator? = null,
                                   startDelay: Long? = null,
-                                  reverse: Boolean = false): Observable<View> =
-        doCompletable { it.translationY(translationY, duration, interpolator, startDelay, reverse) }
+                                  reverse: Boolean = false,
+                                  layerType: Int? = null): Observable<View> =
+        doCompletable { it.translationY(translationY, duration, interpolator, startDelay, reverse, layerType) }
 //endregion
 
 //region SCALE
@@ -277,19 +303,22 @@ fun View.scale(scale: Float,
                duration: Long? = null,
                interpolator: TimeInterpolator? = null,
                startDelay: Long? = null,
-               reverse: Boolean = false): Completable =
+               reverse: Boolean = false,
+               layerType: Int? = null): Completable =
         Observable.just(this.scaleX to this.scaleY)
                 .flatMapCompletable { (defaultScaleX, defaultScaleY) ->
                     animate(scaleX = scale,
                             scaleY = scale,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
                                 animate(scaleX = defaultScaleX,
                                         scaleY = defaultScaleY,
                                         duration = duration,
-                                        interpolator = interpolator)
+                                        interpolator = interpolator,
+                                    layerType = layerType)
                             }
                 }
 
@@ -297,22 +326,25 @@ fun Observable<View>.scale(scale: Float,
                            duration: Long? = null,
                            interpolator: TimeInterpolator? = null,
                            startDelay: Long? = null,
-                           reverse: Boolean = false): Observable<View> =
-        doCompletable { it.scale(scale, duration, interpolator, startDelay, reverse) }
+                           reverse: Boolean = false,
+                           layerType: Int? = null): Observable<View> =
+        doCompletable { it.scale(scale, duration, interpolator, startDelay, reverse, layerType) }
 
 fun View.scaleX(scaleX: Float,
                 duration: Long? = null,
                 interpolator: TimeInterpolator? = null,
                 startDelay: Long? = null,
-                reverse: Boolean = false): Completable =
+                reverse: Boolean = false,
+                layerType: Int? = null): Completable =
         Observable.just(this.scaleX)
                 .flatMapCompletable { defaultScaleX ->
                     animate(scaleX = scaleX,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
-                                scaleX(defaultScaleX, duration, interpolator)
+                                scaleX(defaultScaleX, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -320,22 +352,25 @@ fun Observable<View>.scaleX(scaleX: Float,
                             duration: Long? = null,
                             interpolator: TimeInterpolator? = null,
                             startDelay: Long? = null,
-                            reverse: Boolean = false): Observable<View> =
-        doCompletable { it.scaleX(scaleX, duration, interpolator, startDelay, reverse) }
+                            reverse: Boolean = false,
+                            layerType: Int? = null): Observable<View> =
+        doCompletable { it.scaleX(scaleX, duration, interpolator, startDelay, reverse, layerType) }
 
 fun View.scaleY(scaleY: Float,
                 duration: Long? = null,
                 interpolator: TimeInterpolator? = null,
                 startDelay: Long? = null,
-                reverse: Boolean = false): Completable =
+                reverse: Boolean = false,
+                layerType: Int? = null): Completable =
         Observable.just(this.scaleY)
                 .flatMapCompletable { defaultScaleY ->
                     animate(scaleY = scaleY,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
-                                scaleY(defaultScaleY, duration, interpolator)
+                                scaleY(defaultScaleY, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -343,8 +378,9 @@ fun Observable<View>.scaleY(scaleY: Float,
                             duration: Long? = null,
                             interpolator: TimeInterpolator? = null,
                             startDelay: Long? = null,
-                            reverse: Boolean = false): Observable<View> =
-        doCompletable { it.scaleY(scaleY, duration, interpolator, startDelay, reverse) }
+                            reverse: Boolean = false,
+                            layerType: Int? = null): Observable<View> =
+        doCompletable { it.scaleY(scaleY, duration, interpolator, startDelay, reverse, layerType) }
 //endregion
 
 //region ROTATION
@@ -352,15 +388,17 @@ fun View.rotation(rotation: Float,
                   duration: Long? = null,
                   interpolator: TimeInterpolator? = null,
                   startDelay: Long? = null,
-                  reverse: Boolean = false): Completable =
+                  reverse: Boolean = false,
+                  layerType: Int? = null): Completable =
         Observable.just(this.rotation)
                 .flatMapCompletable { defaultRotation ->
                     animate(rotation = rotation,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
-                                rotation(defaultRotation, duration, interpolator)
+                                rotation(defaultRotation, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -368,22 +406,25 @@ fun Observable<View>.rotation(rotation: Float,
                               duration: Long? = null,
                               interpolator: TimeInterpolator? = null,
                               startDelay: Long? = null,
-                              reverse: Boolean = false): Observable<View> =
-        doCompletable { it.rotation(rotation, duration, interpolator, startDelay, reverse) }
+                              reverse: Boolean = false,
+                              layerType: Int? = null): Observable<View> =
+        doCompletable { it.rotation(rotation, duration, interpolator, startDelay, reverse, layerType) }
 
 fun View.rotationX(rotationX: Float,
                    duration: Long? = null,
                    interpolator: TimeInterpolator? = null,
                    startDelay: Long? = null,
-                   reverse: Boolean = false): Completable =
+                   reverse: Boolean = false,
+                   layerType: Int? = null): Completable =
         Observable.just(this.rotationX)
                 .flatMapCompletable { defaultRotationX ->
                     animate(rotationX = rotationX,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
-                                rotationX(defaultRotationX, duration, interpolator)
+                                rotationX(defaultRotationX, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -391,20 +432,23 @@ fun Observable<View>.rotationX(rotationX: Float,
                                duration: Long? = null,
                                interpolator: TimeInterpolator? = null,
                                startDelay: Long? = null,
-                               reverse: Boolean = false): Observable<View> =
-        doCompletable { it.rotationX(rotationX, duration, interpolator, startDelay, reverse) }
+                               reverse: Boolean = false,
+                               layerType: Int? = null): Observable<View> =
+        doCompletable { it.rotationX(rotationX, duration, interpolator, startDelay, reverse, layerType) }
 
 fun View.rotationY(rotationY: Float,
                    duration: Long? = null,
                    interpolator: TimeInterpolator? = null,
                    startDelay: Long? = null,
-                   reverse: Boolean = false): Completable =
+                   reverse: Boolean = false,
+                   layerType: Int? = null): Completable =
         Observable.just(this.rotationY)
                 .flatMapCompletable { defaultRotationY ->
                     animate(rotationY = rotationY,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
                                 rotationY(defaultRotationY, duration, interpolator)
                             }
@@ -414,8 +458,9 @@ fun Observable<View>.rotationY(rotationY: Float,
                                duration: Long? = null,
                                interpolator: TimeInterpolator? = null,
                                startDelay: Long? = null,
-                               reverse: Boolean = false): Observable<View> =
-        doCompletable { it.rotationY(rotationY, duration, interpolator, startDelay, reverse) }
+                               reverse: Boolean = false,
+                               layerType: Int? = null): Observable<View> =
+        doCompletable { it.rotationY(rotationY, duration, interpolator, startDelay, reverse, layerType) }
 //endregion
 
 //region X, Y, Z
@@ -426,7 +471,8 @@ fun View.xyz(x: Float? = null,
              duration: Long? = null,
              interpolator: TimeInterpolator? = null,
              startDelay: Long? = null,
-             reverse: Boolean = false): Completable =
+             reverse: Boolean = false,
+             layerType: Int? = null): Completable =
         Observable.just(Triple(this.x, this.y, this.z))
                 .flatMapCompletable { (defaultX, defaultY, defaultZ) ->
                     animate(x = x,
@@ -434,9 +480,10 @@ fun View.xyz(x: Float? = null,
                             z = z,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
-                                xyz(defaultX, defaultY, defaultZ, duration, interpolator)
+                                xyz(defaultX, defaultY, defaultZ, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -447,22 +494,25 @@ fun Observable<View>.xyz(x: Float? = null,
                          duration: Long? = null,
                          interpolator: TimeInterpolator? = null,
                          startDelay: Long? = null,
-                         reverse: Boolean = false): Observable<View> =
-        doCompletable { it.xyz(x, y, z, duration, interpolator, startDelay, reverse) }
+                         reverse: Boolean = false,
+                         layerType: Int? = null): Observable<View> =
+        doCompletable { it.xyz(x, y, z, duration, interpolator, startDelay, reverse, layerType) }
 
 fun View.x(x: Float,
            duration: Long? = null,
            interpolator: TimeInterpolator? = null,
            startDelay: Long? = null,
-           reverse: Boolean = false): Completable =
+           reverse: Boolean = false,
+           layerType: Int? = null): Completable =
         Observable.just(this.x)
                 .flatMapCompletable { defaultX ->
                     animate(x = x,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
-                                x(defaultX, duration, interpolator)
+                                x(defaultX, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -470,22 +520,25 @@ fun Observable<View>.x(x: Float,
                        duration: Long? = null,
                        interpolator: TimeInterpolator? = null,
                        startDelay: Long? = null,
-                       reverse: Boolean = false): Observable<View> =
-        doCompletable { it.x(x, duration, interpolator, startDelay, reverse) }
+                       reverse: Boolean = false,
+                       layerType: Int? = null): Observable<View> =
+        doCompletable { it.x(x, duration, interpolator, startDelay, reverse, layerType) }
 
 fun View.y(y: Float,
            duration: Long? = null,
            interpolator: TimeInterpolator? = null,
            startDelay: Long? = null,
-           reverse: Boolean = false): Completable =
+           reverse: Boolean = false,
+           layerType: Int? = null): Completable =
         Observable.just(this.y)
                 .flatMapCompletable { defaultY ->
                     animate(y = y,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
-                                y(defaultY, duration, interpolator)
+                                y(defaultY, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -493,23 +546,26 @@ fun Observable<View>.y(y: Float,
                        duration: Long? = null,
                        interpolator: TimeInterpolator? = null,
                        startDelay: Long? = null,
-                       reverse: Boolean = false): Observable<View> =
-        doCompletable { it.y(y, duration, interpolator, startDelay, reverse) }
+                       reverse: Boolean = false,
+                       layerType: Int? = null): Observable<View> =
+        doCompletable { it.y(y, duration, interpolator, startDelay, reverse, layerType) }
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 fun View.z(z: Float,
            duration: Long? = null,
            interpolator: TimeInterpolator? = null,
            startDelay: Long? = null,
-           reverse: Boolean = false): Completable =
+           reverse: Boolean = false,
+           layerType: Int? = null): Completable =
         Observable.just(this.z)
                 .flatMapCompletable { defaultZ ->
                     animate(z = z,
                             duration = duration,
                             interpolator = interpolator,
-                            startDelay = startDelay)
+                            startDelay = startDelay,
+                        layerType = layerType)
                             .reverse(reverse) {
-                                z(defaultZ, duration, interpolator)
+                                z(defaultZ, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -518,8 +574,9 @@ fun Observable<View>.z(z: Float,
                        duration: Long? = null,
                        interpolator: TimeInterpolator? = null,
                        startDelay: Long? = null,
-                       reverse: Boolean = false): Observable<View> =
-        doCompletable { it.z(z, duration, interpolator, startDelay, reverse) }
+                       reverse: Boolean = false,
+                       layerType: Int? = null): Observable<View> =
+        doCompletable { it.z(z, duration, interpolator, startDelay, reverse, layerType) }
 //endregion
 
 //region RESIZE
@@ -657,14 +714,16 @@ fun Observable<View>.shake(duration: Long = 300,
 fun View.press(depth: Float = 0.95f,
                duration: Long? = null,
                interpolator: TimeInterpolator? = null,
-               startDelay: Long? = null): Completable =
-        scale(depth, (duration ?: 300) / 2, interpolator, startDelay, reverse = true)
+               startDelay: Long? = null,
+               layerType: Int? = null): Completable =
+        scale(depth, (duration ?: 300) / 2, interpolator, startDelay, reverse = true, layerType = layerType)
 
 fun Observable<View>.press(depth: Float = 0.95f,
                            duration: Long? = null,
                            interpolator: TimeInterpolator? = null,
-                           startDelay: Long? = null): Observable<View> =
-        doCompletable { it.press(depth, duration, interpolator, startDelay) }
+                           startDelay: Long? = null,
+                           layerType: Int? = null): Observable<View> =
+        doCompletable { it.press(depth, duration, interpolator, startDelay, layerType) }
 //endregion
 
 //region TEXT
@@ -672,14 +731,15 @@ fun TextView.text(text: String,
                   duration: Long = 300L,
                   interpolator: TimeInterpolator? = null,
                   startDelay: Long? = null,
-                  reverse: Boolean = false): Completable =
+                  reverse: Boolean = false,
+                  layerType: Int? = null): Completable =
         Observable.just(this.text.toString())
                 .flatMapCompletable { defaultText ->
-                    fadeOut(duration / 2, interpolator, startDelay)
+                    fadeOut(duration / 2, interpolator, startDelay, layerType = layerType)
                             .doOnComplete { this.text = text }
-                            .andThen(fadeIn(duration / 2, interpolator, startDelay = 300L))
+                            .andThen(fadeIn(duration / 2, interpolator, startDelay = 300L, layerType = layerType))
                             .reverse(reverse) {
-                                text(defaultText, duration, interpolator)
+                                text(defaultText, duration, interpolator, layerType = layerType)
                             }
                 }
 
@@ -687,6 +747,7 @@ fun Observable<TextView>.text(text: String,
                               duration: Long = 300L,
                               interpolator: TimeInterpolator? = null,
                               startDelay: Long? = null,
-                              reverse: Boolean = false): Observable<View> =
-        flatMap { it.text(text, duration, interpolator, startDelay, reverse).toSingleDefault(it).toObservable() }
+                              reverse: Boolean = false,
+                              layerType: Int? = null): Observable<View> =
+        flatMap { it.text(text, duration, interpolator, startDelay, reverse, layerType).toSingleDefault(it).toObservable() }
 //endregion
