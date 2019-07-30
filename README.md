@@ -162,6 +162,8 @@ ALL PROPERTIES
 
 :information_source: All the functions have `duration: Long`, `interpolator: TimeInterpolator`, `startDelay: Long` and `reverse: Boolean` properties.
 
+:information_source: Hardware/Software acceleration can be specified using the `layerType: Int` field. Accepted values are `View.LAYER_TYPE_SOFTWARE`, `View.LAYER_TYPE_HARDWARE`, `View.LAYER_TYPE_NONE`. Once the animation is finished the view will be set to the previous layer type value.
+ 
 LICENCE
 -----
 
