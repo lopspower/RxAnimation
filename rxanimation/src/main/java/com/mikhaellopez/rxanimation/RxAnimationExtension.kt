@@ -5,6 +5,7 @@ import android.annotation.TargetApi
 import android.content.res.Resources
 import android.os.Build
 import android.view.View
+import android.view.View.LAYER_TYPE_NONE
 import android.view.ViewPropertyAnimator
 import android.view.animation.CycleInterpolator
 import android.view.animation.Interpolator
@@ -71,7 +72,7 @@ fun View.animate(alpha: Float? = null,
                 withLayer()
             }
         }.animate {
-                (tag as? Int)?.let {setLayerType(it, null)}
+                setLayerType((tag as? Int) ?: LAYER_TYPE_NONE, null)
                 it.onComplete()
             }
         }
