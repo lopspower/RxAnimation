@@ -34,6 +34,31 @@ private fun ViewPropertyAnimator.animate(animationEnd: (() -> Unit)? = null) {
 //endregion
 
 //region DEFAULT
+/**
+ * Animate your [View] and handle it in [Completable].
+ * All properties from [ViewPropertyAnimator] are available
+ * as optional, null by default.
+ * You can also add a specific duration, interpolator or startDelay.
+ *
+ * @param alpha [Float] optional, null by default.
+ * @param translationX [Float] optional, null by default.
+ * @param translationY [Float] optional, null by default.
+ * @param scaleX [Float] optional, null by default.
+ * @param scaleY [Float] optional, null by default.
+ * @param rotation [Float] optional, null by default.
+ * @param rotationX [Float] optional, null by default.
+ * @param rotationY [Float] optional, null by default.
+ * @param x [Float] optional, null by default.
+ * @param y [Float] optional, null by default.
+ * @param z [Float] optional, null by default.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @see View
+ * @see Completable
+ * @see ViewPropertyAnimator
+ * @return A [Completable].
+ */
 fun View.animate(alpha: Float? = null,
                  translationX: Float? = null,
                  translationY: Float? = null,
@@ -88,6 +113,29 @@ private fun ValueAnimator.start(duration: Long? = null,
     }.start()
 }
 
+/**
+ * Start [ValueAnimator] animation and handle it in [Observable].
+ * You can add a specific duration.
+ *
+ * @param valueAnimator [ValueAnimator] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param action ([Any]) -> [Unit] the action to do on UpdateListener.
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.startValueAnimator(valueAnimator: ValueAnimator,
+                                        duration: Long? = null,
+                                        action: (Any) -> Unit): Observable<View> =
+    doCompletable { valueAnimator.start(duration, action) }
+
+/**
+ * Start [ValueAnimator] animation and handle it in [Completable].
+ * You can add a specific duration.
+ *
+ * @param duration [Long] optional, null by default.
+ * @param action ([Any]) -> [Unit] the action to do on UpdateListener.
+ * @see startValueAnimator
+ * @return A [Completable].
+ */
 fun ValueAnimator.start(duration: Long? = null,
                         action: (Any) -> Unit): Completable =
         Completable.create {
@@ -95,14 +143,14 @@ fun ValueAnimator.start(duration: Long? = null,
                     animationEnd = { it.onComplete() },
                     action = action)
         }
-
-fun Observable<View>.startValueAnimator(valueAnimator: ValueAnimator,
-                                        duration: Long? = null,
-                                        action: (Any) -> Unit): Observable<View> =
-        doCompletable { valueAnimator.start(duration, action) }
 //endregion
 
 //region VIEW PROPERTY ANIMATOR
+/**
+ * Animate [ViewPropertyAnimator] and handle it in [Completable].
+ *
+ * @return A [Completable].
+ */
 fun ViewPropertyAnimator.animate(): Completable =
         Completable.create {
             animate { it.onComplete() }
@@ -110,6 +158,52 @@ fun ViewPropertyAnimator.animate(): Completable =
 //endregion
 
 //region RANGE
+/**
+ * Apply animation to your [View] with [Float] range and handle it in [Observable].
+ * Perfect to apply animation on custom properties.
+ * You can add a specific duration and reverse the animation.
+ *
+ * @param start [Float] param mandatory.
+ * @param end [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see rangeInt
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.rangeFloat(start: Float, end: Float,
+                                duration: Long? = null,
+                                reverse: Boolean = false,
+                                action: (Float) -> Unit): Observable<View> =
+    doCompletable { (start to end).rangeFloatToCompletable(duration, reverse, action) }
+
+/**
+ * Apply animation to your [View] with [Int] range and handle it in [Observable].
+ * Perfect to apply animation on custom properties.
+ * You can add a specific duration and reverse the animation.
+ *
+ * @param start [Int] param mandatory.
+ * @param end [Int] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see rangeFloat
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.rangeInt(start: Int, end: Int,
+                              duration: Long? = null,
+                              reverse: Boolean = false,
+                              action: (Int) -> Unit): Observable<View> =
+    doCompletable { (start to end).rangeIntToCompletable(duration, reverse, action) }
+
+/**
+ * Create [Float] range to apply animation to your [View] and handle it in [Completable].
+ * Perfect to apply animation on custom properties.
+ * You can add a specific duration and reverse the animation.
+ *
+ * @param duration [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see rangeIntToCompletable
+ * @return A [Completable].
+ */
 fun Pair<Float, Float>.rangeFloatToCompletable(duration: Long? = null,
                                                reverse: Boolean = false,
                                                action: (Float) -> Unit): Completable =
@@ -122,12 +216,16 @@ fun Pair<Float, Float>.rangeFloatToCompletable(duration: Long? = null,
             (second to first).rangeFloatToCompletable(duration, action = action)
         }
 
-fun Observable<View>.rangeFloat(start: Float, end: Float,
-                                duration: Long? = null,
-                                reverse: Boolean = false,
-                                action: (Float) -> Unit): Observable<View> =
-        doCompletable { (start to end).rangeFloatToCompletable(duration, reverse, action) }
-
+/**
+ * Create [Int] range to apply animation to your [View] and handle it in [Completable].
+ * Perfect to apply animation on custom properties.
+ * You can add a specific duration and reverse the animation.
+ *
+ * @param duration [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see rangeFloatToCompletable
+ * @return A [Completable].
+ */
 fun Pair<Int, Int>.rangeIntToCompletable(duration: Long? = null,
                                          reverse: Boolean = false,
                                          action: (Int) -> Unit): Completable =
@@ -141,31 +239,24 @@ fun Pair<Int, Int>.rangeIntToCompletable(duration: Long? = null,
                 andThen((second to first).rangeIntToCompletable(duration, action = action))
             } else this
         }
-
-fun Observable<View>.rangeInt(start: Int, end: Int,
-                              duration: Long? = null,
-                              reverse: Boolean = false,
-                              action: (Int) -> Unit): Observable<View> =
-        doCompletable { (start to end).rangeIntToCompletable(duration, reverse, action) }
 //endregion
 
 //region ALPHA
-fun View.alpha(alpha: Float,
-               duration: Long? = null,
-               interpolator: TimeInterpolator? = null,
-               startDelay: Long? = null,
-               reverse: Boolean = false): Completable =
-        Observable.just(this.alpha)
-                .flatMapCompletable { defaultAlpha ->
-                    animate(alpha = alpha,
-                            duration = duration,
-                            interpolator = interpolator,
-                            startDelay = startDelay)
-                            .reverse(reverse) {
-                                alpha(defaultAlpha, duration, interpolator)
-                            }
-                }
-
+/**
+ * Set the alpha of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param alpha [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see fadeIn
+ * @see fadeOut
+ * @return An [Observable] of [View].
+ */
 fun Observable<View>.alpha(alpha: Float,
                            duration: Long? = null,
                            interpolator: TimeInterpolator? = null,
@@ -173,32 +264,203 @@ fun Observable<View>.alpha(alpha: Float,
                            reverse: Boolean = false): Observable<View> =
         doCompletable { it.alpha(alpha, duration, interpolator, startDelay, reverse) }
 
+/**
+ * Set the alpha to 1f of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see alpha
+ * @see fadeOut
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.fadeIn(duration: Long? = null,
+                            interpolator: TimeInterpolator? = null,
+                            startDelay: Long? = null,
+                            reverse: Boolean = false): Observable<View> =
+    doCompletable { it.fadeIn(duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the alpha to 0f of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see alpha
+ * @see fadeIn
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.fadeOut(duration: Long? = null,
+                             interpolator: TimeInterpolator? = null,
+                             startDelay: Long? = null,
+                             reverse: Boolean = false): Observable<View> =
+    doCompletable { it.fadeOut(duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the alpha of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param alpha [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.fadeIn
+ * @see View.fadeOut
+ * @return A [Completable].
+ */
+fun View.alpha(alpha: Float,
+               duration: Long? = null,
+               interpolator: TimeInterpolator? = null,
+               startDelay: Long? = null,
+               reverse: Boolean = false): Completable =
+    Observable.just(this.alpha)
+        .flatMapCompletable { defaultAlpha ->
+            animate(alpha = alpha,
+                duration = duration,
+                interpolator = interpolator,
+                startDelay = startDelay)
+                .reverse(reverse) {
+                    alpha(defaultAlpha, duration, interpolator)
+                }
+        }
+
+/**
+ * Set the alpha to 1f of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param duration [Long] optional, optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, optional, null by default.
+ * @param startDelay [Long] optional, optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.fadeOut
+ * @see View.alpha
+ * @return A [Completable].
+ */
 fun View.fadeIn(duration: Long? = null,
                 interpolator: TimeInterpolator? = null,
                 startDelay: Long? = null,
                 reverse: Boolean = false): Completable =
         alpha(1f, duration, interpolator, startDelay, reverse)
 
-fun Observable<View>.fadeIn(duration: Long? = null,
-                            interpolator: TimeInterpolator? = null,
-                            startDelay: Long? = null,
-                            reverse: Boolean = false): Observable<View> =
-        doCompletable { it.fadeIn(duration, interpolator, startDelay, reverse) }
 
+
+/**
+ * Set the alpha to Of of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param duration [Long] optional, optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, optional, null by default.
+ * @param startDelay [Long] optional, optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.fadeIn
+ * @see View.alpha
+ * @return A [Completable].
+ */
 fun View.fadeOut(duration: Long? = null,
                  interpolator: TimeInterpolator? = null,
                  startDelay: Long? = null,
                  reverse: Boolean = false): Completable =
         alpha(0f, duration, interpolator, startDelay, reverse)
-
-fun Observable<View>.fadeOut(duration: Long? = null,
-                             interpolator: TimeInterpolator? = null,
-                             startDelay: Long? = null,
-                             reverse: Boolean = false): Observable<View> =
-        doCompletable { it.fadeOut(duration, interpolator, startDelay, reverse) }
 //endregion
 
 //region TRANSLATION
+/**
+ * Set the translation of your [View] in DP with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param translationX [Float] param mandatory, in DP
+ * @param translationY [Float] param mandatory, in DP
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.translation(translationX: Float,
+                                 translationY: Float,
+                                 duration: Long? = null,
+                                 interpolator: TimeInterpolator? = null,
+                                 startDelay: Long? = null,
+                                 reverse: Boolean = false): Observable<View> =
+    doCompletable { it.translation(translationX, translationY, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the translationX of your [View] in DP with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param translationX [Float] param mandatory, in DP
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see translation
+ * @see translationY
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.translationX(translationX: Float,
+                                  duration: Long? = null,
+                                  interpolator: TimeInterpolator? = null,
+                                  startDelay: Long? = null,
+                                  reverse: Boolean = false): Observable<View> =
+    doCompletable { it.translationX(translationX, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the translationY of your [View] in DP with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param translationY [Float] param mandatory, in DP
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see translation
+ * @see translationX
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.translationY(translationY: Float,
+                                  duration: Long? = null,
+                                  interpolator: TimeInterpolator? = null,
+                                  startDelay: Long? = null,
+                                  reverse: Boolean = false): Observable<View> =
+    doCompletable { it.translationY(translationY, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the translation X and Y of your [View] in DP with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param translationX [Float] param mandatory, in DP
+ * @param translationY [Float] param mandatory, in DP
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.translationX
+ * @see View.translationY
+ * @return A [Completable].
+ */
 fun View.translation(translationX: Float,
                      translationY: Float,
                      duration: Long? = null,
@@ -217,14 +479,21 @@ fun View.translation(translationX: Float,
                             }
                 }
 
-fun Observable<View>.translation(translationX: Float,
-                                 translationY: Float,
-                                 duration: Long? = null,
-                                 interpolator: TimeInterpolator? = null,
-                                 startDelay: Long? = null,
-                                 reverse: Boolean = false): Observable<View> =
-        doCompletable { it.translation(translationX, translationY, duration, interpolator, startDelay, reverse) }
-
+/**
+ * Set the translation X of your [View] in DP with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param translationX [Float] param mandatory, in DP
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.translation
+ * @see View.translationY
+ * @return A [Completable].
+ */
 fun View.translationX(translationX: Float,
                       duration: Long? = null,
                       interpolator: TimeInterpolator? = null,
@@ -241,13 +510,21 @@ fun View.translationX(translationX: Float,
                             }
                 }
 
-fun Observable<View>.translationX(translationX: Float,
-                                  duration: Long? = null,
-                                  interpolator: TimeInterpolator? = null,
-                                  startDelay: Long? = null,
-                                  reverse: Boolean = false): Observable<View> =
-        doCompletable { it.translationX(translationX, duration, interpolator, startDelay, reverse) }
-
+/**
+ * Set the translation Y of your [View] in DP with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param translationY [Float] param mandatory, in DP
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.translation
+ * @see View.translationX
+ * @return A [Completable].
+ */
 fun View.translationY(translationY: Float,
                       duration: Long? = null,
                       interpolator: TimeInterpolator? = null,
@@ -263,16 +540,90 @@ fun View.translationY(translationY: Float,
                                 translationY(defaultTranslationY, duration, interpolator)
                             }
                 }
-
-fun Observable<View>.translationY(translationY: Float,
-                                  duration: Long? = null,
-                                  interpolator: TimeInterpolator? = null,
-                                  startDelay: Long? = null,
-                                  reverse: Boolean = false): Observable<View> =
-        doCompletable { it.translationY(translationY, duration, interpolator, startDelay, reverse) }
 //endregion
 
 //region SCALE
+/**
+ * Set the scale of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param scale [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see scaleX
+ * @see scaleY
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.scale(scale: Float,
+                           duration: Long? = null,
+                           interpolator: TimeInterpolator? = null,
+                           startDelay: Long? = null,
+                           reverse: Boolean = false): Observable<View> =
+    doCompletable { it.scale(scale, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the scaleX of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param scaleX [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see scale
+ * @see scaleY
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.scaleX(scaleX: Float,
+                            duration: Long? = null,
+                            interpolator: TimeInterpolator? = null,
+                            startDelay: Long? = null,
+                            reverse: Boolean = false): Observable<View> =
+    doCompletable { it.scaleX(scaleX, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the scaleY of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param scaleY [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see scale
+ * @see scaleX
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.scaleY(scaleY: Float,
+                            duration: Long? = null,
+                            interpolator: TimeInterpolator? = null,
+                            startDelay: Long? = null,
+                            reverse: Boolean = false): Observable<View> =
+    doCompletable { it.scaleY(scaleY, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the scale of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param scale [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.scaleX
+ * @see View.scaleY
+ * @return A [Completable].
+ */
 fun View.scale(scale: Float,
                duration: Long? = null,
                interpolator: TimeInterpolator? = null,
@@ -293,13 +644,21 @@ fun View.scale(scale: Float,
                             }
                 }
 
-fun Observable<View>.scale(scale: Float,
-                           duration: Long? = null,
-                           interpolator: TimeInterpolator? = null,
-                           startDelay: Long? = null,
-                           reverse: Boolean = false): Observable<View> =
-        doCompletable { it.scale(scale, duration, interpolator, startDelay, reverse) }
-
+/**
+ * Set the scale X of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param scaleX [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.scale
+ * @see View.scaleY
+ * @return A [Completable].
+ */
 fun View.scaleX(scaleX: Float,
                 duration: Long? = null,
                 interpolator: TimeInterpolator? = null,
@@ -316,13 +675,21 @@ fun View.scaleX(scaleX: Float,
                             }
                 }
 
-fun Observable<View>.scaleX(scaleX: Float,
-                            duration: Long? = null,
-                            interpolator: TimeInterpolator? = null,
-                            startDelay: Long? = null,
-                            reverse: Boolean = false): Observable<View> =
-        doCompletable { it.scaleX(scaleX, duration, interpolator, startDelay, reverse) }
-
+/**
+ * Set the scale Y of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param scaleY [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.scale
+ * @see View.scaleX
+ * @return A [Completable].
+ */
 fun View.scaleY(scaleY: Float,
                 duration: Long? = null,
                 interpolator: TimeInterpolator? = null,
@@ -338,16 +705,90 @@ fun View.scaleY(scaleY: Float,
                                 scaleY(defaultScaleY, duration, interpolator)
                             }
                 }
-
-fun Observable<View>.scaleY(scaleY: Float,
-                            duration: Long? = null,
-                            interpolator: TimeInterpolator? = null,
-                            startDelay: Long? = null,
-                            reverse: Boolean = false): Observable<View> =
-        doCompletable { it.scaleY(scaleY, duration, interpolator, startDelay, reverse) }
 //endregion
 
 //region ROTATION
+/**
+ * Set the rotation of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param rotation [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see rotationX
+ * @see rotationY
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.rotation(rotation: Float,
+                              duration: Long? = null,
+                              interpolator: TimeInterpolator? = null,
+                              startDelay: Long? = null,
+                              reverse: Boolean = false): Observable<View> =
+    doCompletable { it.rotation(rotation, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the rotationX of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param rotationX [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see rotation
+ * @see rotationY
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.rotationX(rotationX: Float,
+                               duration: Long? = null,
+                               interpolator: TimeInterpolator? = null,
+                               startDelay: Long? = null,
+                               reverse: Boolean = false): Observable<View> =
+    doCompletable { it.rotationX(rotationX, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the rotationY of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param rotationY [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see rotation
+ * @see rotationX
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.rotationY(rotationY: Float,
+                               duration: Long? = null,
+                               interpolator: TimeInterpolator? = null,
+                               startDelay: Long? = null,
+                               reverse: Boolean = false): Observable<View> =
+    doCompletable { it.rotationY(rotationY, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the rotation of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param rotation [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.rotationX
+ * @see View.rotationY
+ * @return A [Completable].
+ */
 fun View.rotation(rotation: Float,
                   duration: Long? = null,
                   interpolator: TimeInterpolator? = null,
@@ -364,13 +805,21 @@ fun View.rotation(rotation: Float,
                             }
                 }
 
-fun Observable<View>.rotation(rotation: Float,
-                              duration: Long? = null,
-                              interpolator: TimeInterpolator? = null,
-                              startDelay: Long? = null,
-                              reverse: Boolean = false): Observable<View> =
-        doCompletable { it.rotation(rotation, duration, interpolator, startDelay, reverse) }
-
+/**
+ * Set the rotation X of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param rotationX [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.rotation
+ * @see View.rotationY
+ * @return A [Completable].
+ */
 fun View.rotationX(rotationX: Float,
                    duration: Long? = null,
                    interpolator: TimeInterpolator? = null,
@@ -387,13 +836,21 @@ fun View.rotationX(rotationX: Float,
                             }
                 }
 
-fun Observable<View>.rotationX(rotationX: Float,
-                               duration: Long? = null,
-                               interpolator: TimeInterpolator? = null,
-                               startDelay: Long? = null,
-                               reverse: Boolean = false): Observable<View> =
-        doCompletable { it.rotationX(rotationX, duration, interpolator, startDelay, reverse) }
-
+/**
+ * Set the rotation Y of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param rotationY [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.rotation
+ * @see View.rotationX
+ * @return A [Completable].
+ */
 fun View.rotationY(rotationY: Float,
                    duration: Long? = null,
                    interpolator: TimeInterpolator? = null,
@@ -409,16 +866,122 @@ fun View.rotationY(rotationY: Float,
                                 rotationY(defaultRotationY, duration, interpolator)
                             }
                 }
-
-fun Observable<View>.rotationY(rotationY: Float,
-                               duration: Long? = null,
-                               interpolator: TimeInterpolator? = null,
-                               startDelay: Long? = null,
-                               reverse: Boolean = false): Observable<View> =
-        doCompletable { it.rotationY(rotationY, duration, interpolator, startDelay, reverse) }
 //endregion
 
 //region X, Y, Z
+/**
+ * Set the X, Y & Z of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param x [Float] optional, null by default.
+ * @param y [Float] optional, null by default.
+ * @param z [Float] optional, null by default.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @return An [Observable] of [View].
+ */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+fun Observable<View>.xyz(x: Float? = null,
+                         y: Float? = null,
+                         z: Float? = null,
+                         duration: Long? = null,
+                         interpolator: TimeInterpolator? = null,
+                         startDelay: Long? = null,
+                         reverse: Boolean = false): Observable<View> =
+    doCompletable { it.xyz(x, y, z, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the X of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param x [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see xyz
+ * @see y
+ * @see z
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.x(x: Float,
+                       duration: Long? = null,
+                       interpolator: TimeInterpolator? = null,
+                       startDelay: Long? = null,
+                       reverse: Boolean = false): Observable<View> =
+    doCompletable { it.x(x, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the Y of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param y [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see xyz
+ * @see x
+ * @see z
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.y(y: Float,
+                       duration: Long? = null,
+                       interpolator: TimeInterpolator? = null,
+                       startDelay: Long? = null,
+                       reverse: Boolean = false): Observable<View> =
+    doCompletable { it.y(y, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the Z of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param z [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see xyz
+ * @see x
+ * @see y
+ * @return An [Observable] of [View].
+ */
+@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+fun Observable<View>.z(z: Float,
+                       duration: Long? = null,
+                       interpolator: TimeInterpolator? = null,
+                       startDelay: Long? = null,
+                       reverse: Boolean = false): Observable<View> =
+    doCompletable { it.z(z, duration, interpolator, startDelay, reverse) }
+
+/**
+ * Set the X, Y & Z of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param x [Float] optional, null by default.
+ * @param y [Float] optional, null by default.
+ * @param z [Float] optional, null by default.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.x
+ * @see View.y
+ * @see View.z
+ * @return A [Completable].
+ */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 fun View.xyz(x: Float? = null,
              y: Float? = null,
@@ -440,16 +1003,22 @@ fun View.xyz(x: Float? = null,
                             }
                 }
 
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-fun Observable<View>.xyz(x: Float? = null,
-                         y: Float? = null,
-                         z: Float? = null,
-                         duration: Long? = null,
-                         interpolator: TimeInterpolator? = null,
-                         startDelay: Long? = null,
-                         reverse: Boolean = false): Observable<View> =
-        doCompletable { it.xyz(x, y, z, duration, interpolator, startDelay, reverse) }
-
+/**
+ * Set the X of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param x [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.xyz
+ * @see View.y
+ * @see View.z
+ * @return A [Completable].
+ */
 fun View.x(x: Float,
            duration: Long? = null,
            interpolator: TimeInterpolator? = null,
@@ -466,13 +1035,22 @@ fun View.x(x: Float,
                             }
                 }
 
-fun Observable<View>.x(x: Float,
-                       duration: Long? = null,
-                       interpolator: TimeInterpolator? = null,
-                       startDelay: Long? = null,
-                       reverse: Boolean = false): Observable<View> =
-        doCompletable { it.x(x, duration, interpolator, startDelay, reverse) }
-
+/**
+ * Set the Y of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param y [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.xyz
+ * @see View.x
+ * @see View.z
+ * @return A [Completable].
+ */
 fun View.y(y: Float,
            duration: Long? = null,
            interpolator: TimeInterpolator? = null,
@@ -489,13 +1067,22 @@ fun View.y(y: Float,
                             }
                 }
 
-fun Observable<View>.y(y: Float,
-                       duration: Long? = null,
-                       interpolator: TimeInterpolator? = null,
-                       startDelay: Long? = null,
-                       reverse: Boolean = false): Observable<View> =
-        doCompletable { it.y(y, duration, interpolator, startDelay, reverse) }
-
+/**
+ * Set the Z of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param z [Float] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.xyz
+ * @see View.x
+ * @see View.y
+ * @return A [Completable].
+ */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 fun View.z(z: Float,
            duration: Long? = null,
@@ -512,14 +1099,6 @@ fun View.z(z: Float,
                                 z(defaultZ, duration, interpolator)
                             }
                 }
-
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
-fun Observable<View>.z(z: Float,
-                       duration: Long? = null,
-                       interpolator: TimeInterpolator? = null,
-                       startDelay: Long? = null,
-                       reverse: Boolean = false): Observable<View> =
-        doCompletable { it.z(z, duration, interpolator, startDelay, reverse) }
 //endregion
 
 //region RESIZE
@@ -535,6 +1114,119 @@ private fun View.widthToCompletable(width: Int,
                     }
         }
 
+private fun View.heightToCompletable(height: Int,
+                                     duration: Long? = null,
+                                     interpolator: Interpolator? = null): Completable =
+    Completable.create {
+        ValueAnimator.ofInt(this.height, height.dpToPx())
+            .start(duration, interpolator,
+                animationEnd = { it.onComplete() }) {
+                layoutParams.height = it as Int
+                requestLayout()
+            }
+    }
+
+/**
+ * Set the width and height of your [View] in DP with animation and handle it in [Observable].
+ * You can add a specific duration or interpolator.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param width [Int] param mandatory, in DP.
+ * @param height [Int] param mandatory, in DP.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.resize(width: Int, height: Int,
+                            duration: Long? = null,
+                            interpolator: Interpolator? = null,
+                            reverse: Boolean = false): Observable<View> =
+    doCompletable { it.resize(width, height, duration, interpolator, reverse) }
+
+/**
+ * Set the width of your [View] in DP with animation and handle it in [Observable].
+ * You can add a specific duration or interpolator.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param width [Int] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see resize
+ * @see height
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.width(width: Int,
+                           duration: Long? = null,
+                           interpolator: Interpolator? = null,
+                           reverse: Boolean = false): Observable<View> =
+    doCompletable { it.width(width, duration, interpolator, reverse) }
+
+/**
+ * Set the height of your [View] in DP with animation and handle it in [Observable].
+ * You can add a specific duration or interpolator.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param height [Int] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see resize
+ * @see width
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.height(height: Int,
+                            duration: Long? = null,
+                            interpolator: Interpolator? = null,
+                            reverse: Boolean = false): Observable<View> =
+    doCompletable { it.height(height, duration, interpolator, reverse) }
+
+/**
+ * Set the width and height of your [View] in DP with animation and handle it in [Completable].
+ * You can add a specific duration or interpolator.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param width [Int] param mandatory, in DP.
+ * @param height [Int] param mandatory, in DP.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.width
+ * @see View.height
+ * @return A [Completable].
+ */
+fun View.resize(width: Int, height: Int,
+                duration: Long? = null,
+                interpolator: Interpolator? = null,
+                reverse: Boolean = false): Completable =
+    Observable.just(this.width.pxToDp() to this.height.pxToDp())
+        .flatMapCompletable { (defaultWidth, defaultHeight) ->
+            width(width, duration, interpolator)
+                .mergeWith(height(height, duration, interpolator))
+                .reverse(reverse) {
+                    resize(defaultWidth, defaultHeight, duration, interpolator)
+                }
+        }
+
+/**
+ * Set the width of your [View] in DP with animation and handle it in [Completable].
+ * You can add a specific duration or interpolator.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param width [Int] param mandatory, in DP.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.resize
+ * @see View.height
+ * @return A [Completable].
+ */
 fun View.width(width: Int,
                duration: Long? = null,
                interpolator: Interpolator? = null,
@@ -547,24 +1239,20 @@ fun View.width(width: Int,
                             }
                 }
 
-fun Observable<View>.width(width: Int,
-                           duration: Long? = null,
-                           interpolator: Interpolator? = null,
-                           reverse: Boolean = false): Observable<View> =
-        doCompletable { it.width(width, duration, interpolator, reverse) }
-
-fun View.heightToCompletable(height: Int,
-                             duration: Long? = null,
-                             interpolator: Interpolator? = null): Completable =
-        Completable.create {
-            ValueAnimator.ofInt(this.height, height.dpToPx())
-                    .start(duration, interpolator,
-                            animationEnd = { it.onComplete() }) {
-                        layoutParams.height = it as Int
-                        requestLayout()
-                    }
-        }
-
+/**
+ * Set the height of your [View] in DP with animation and handle it in [Completable].
+ * You can add a specific duration or interpolator.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param height [Int] param mandatory, in DP.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.resize
+ * @see View.width
+ * @return A [Completable].
+ */
 fun View.height(height: Int,
                 duration: Long? = null,
                 interpolator: Interpolator? = null,
@@ -576,31 +1264,6 @@ fun View.height(height: Int,
                                 heightToCompletable(defaultHeight, duration, interpolator)
                             }
                 }
-
-fun Observable<View>.height(height: Int,
-                            duration: Long? = null,
-                            interpolator: Interpolator? = null,
-                            reverse: Boolean = false): Observable<View> =
-        doCompletable { it.height(height, duration, interpolator, reverse) }
-
-fun View.resize(width: Int, height: Int,
-                duration: Long? = null,
-                interpolator: Interpolator? = null,
-                reverse: Boolean = false): Completable =
-        Observable.just(this.width.pxToDp() to this.height.pxToDp())
-                .flatMapCompletable { (defaultWidth, defaultHeight) ->
-                    width(width, duration, interpolator)
-                            .mergeWith(height(height, duration, interpolator))
-                            .reverse(reverse) {
-                                resize(defaultWidth, defaultHeight, duration, interpolator)
-                            }
-                }
-
-fun Observable<View>.resize(width: Int, height: Int,
-                            duration: Long? = null,
-                            interpolator: Interpolator? = null,
-                            reverse: Boolean = false): Observable<View> =
-        doCompletable { it.resize(width, height, duration, interpolator, reverse) }
 //endregion
 
 //region COLOR
@@ -616,6 +1279,41 @@ private fun View.backgroundColorToCompletable(colorFrom: Int,
                     }
         }
 
+/**
+ * Set the background color of your [View] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param colorFrom [Int] param mandatory.
+ * @param colorTo [Int] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see View.backgroundColor
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.backgroundColor(colorFrom: Int,
+                                     colorTo: Int,
+                                     duration: Long? = null,
+                                     interpolator: Interpolator? = null,
+                                     reverse: Boolean = false): Observable<View> =
+    doCompletable { it.backgroundColor(colorFrom, colorTo, duration, interpolator, reverse) }
+
+/**
+ * Set the background color of your [View] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param colorFrom [Int] param mandatory.
+ * @param colorTo [Int] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see backgroundColor
+ * @return A [Completable].
+ */
 fun View.backgroundColor(colorFrom: Int,
                          colorTo: Int,
                          duration: Long? = null,
@@ -625,16 +1323,32 @@ fun View.backgroundColor(colorFrom: Int,
                 .reverse(reverse) {
                     backgroundColorToCompletable(colorTo, colorFrom, duration, interpolator)
                 }
-
-fun Observable<View>.backgroundColor(colorFrom: Int,
-                                     colorTo: Int,
-                                     duration: Long? = null,
-                                     interpolator: Interpolator? = null,
-                                     reverse: Boolean = false): Observable<View> =
-        doCompletable { it.backgroundColor(colorFrom, colorTo, duration, interpolator, reverse) }
 //endregion
 
 //region SHAKE
+/**
+ * Apply shake animation to your [View] and handle it in [Observable].
+ *
+ * @param duration [Long] in millisecond, 300ms by default.
+ * @param nbShake [Float] for [CycleInterpolator], 2f by default.
+ * @param shakeTranslation [Float] in DP for translation, 5f by default.
+ * @see View.shake
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.shake(duration: Long = 300,
+                           nbShake: Float = 2f,
+                           shakeTranslation: Float = 5f): Observable<View> =
+    doCompletable { it.shake(duration, nbShake, shakeTranslation) }
+
+/**
+ * Apply shake animation to your [View] and handle it in [Completable].
+ *
+ * @param duration [Long] in millisecond, 300ms by default.
+ * @param nbShake [Float] for [CycleInterpolator], 2f by default.
+ * @param shakeTranslation [Float] in DP for translation, 5f by default.
+ * @see shake
+ * @return A [Completable].
+ */
 fun View.shake(duration: Long = 300,
                nbShake: Float = 2f,
                shakeTranslation: Float = 5f): Completable =
@@ -646,28 +1360,78 @@ fun View.shake(duration: Long = 300,
                 translationX(shakeTranslation.dpToPx())
             }.animate { it.onComplete() }
         }
-
-fun Observable<View>.shake(duration: Long = 300,
-                           nbShake: Float = 2f,
-                           shakeTranslation: Float = 5f): Observable<View> =
-        doCompletable { it.shake(duration, nbShake, shakeTranslation) }
 //endregion
 
 //region PRESS
+/**
+ * Apply press animation to your [View] and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ *
+ * @param depth [Float] 0.95f by default.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @see View.press
+ * @return An [Observable] of [View].
+ */
+fun Observable<View>.press(depth: Float = 0.95f,
+                           duration: Long? = null,
+                           interpolator: TimeInterpolator? = null,
+                           startDelay: Long? = null): Observable<View> =
+    doCompletable { it.press(depth, duration, interpolator, startDelay) }
+
+/**
+ * Apply press animation to your [View] and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ *
+ * @param depth [Float] 0.95f by default.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @see press
+ * @return A [Completable].
+ */
 fun View.press(depth: Float = 0.95f,
                duration: Long? = null,
                interpolator: TimeInterpolator? = null,
                startDelay: Long? = null): Completable =
         scale(depth, (duration ?: 300) / 2, interpolator, startDelay, reverse = true)
-
-fun Observable<View>.press(depth: Float = 0.95f,
-                           duration: Long? = null,
-                           interpolator: TimeInterpolator? = null,
-                           startDelay: Long? = null): Observable<View> =
-        doCompletable { it.press(depth, duration, interpolator, startDelay) }
 //endregion
 
 //region TEXT
+/**
+ * Set the text of your [TextView] with animation and handle it in [Observable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param text [String] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see TextView.text
+ * @return An [Observable] of [TextView].
+ */
+fun Observable<TextView>.text(text: String,
+                              duration: Long = 300L,
+                              interpolator: TimeInterpolator? = null,
+                              startDelay: Long? = null,
+                              reverse: Boolean = false): Observable<View> =
+    flatMap { it.text(text, duration, interpolator, startDelay, reverse).toSingleDefault(it).toObservable() }
+/**
+ * Set the text of your [TextView] with animation and handle it in [Completable].
+ * You can add a specific duration, interpolator or startDelay.
+ * Used the reverse property to back to the init state of your
+ * view with animation.
+ *
+ * @param text [String] param mandatory.
+ * @param duration [Long] optional, null by default.
+ * @param interpolator [TimeInterpolator] optional, null by default.
+ * @param startDelay [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @return A [Completable].
+ */
 fun TextView.text(text: String,
                   duration: Long = 300L,
                   interpolator: TimeInterpolator? = null,
@@ -682,11 +1446,4 @@ fun TextView.text(text: String,
                                 text(defaultText, duration, interpolator)
                             }
                 }
-
-fun Observable<TextView>.text(text: String,
-                              duration: Long = 300L,
-                              interpolator: TimeInterpolator? = null,
-                              startDelay: Long? = null,
-                              reverse: Boolean = false): Observable<View> =
-        flatMap { it.text(text, duration, interpolator, startDelay, reverse).toSingleDefault(it).toObservable() }
 //endregion
