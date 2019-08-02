@@ -158,7 +158,7 @@ fun Pair<Float, Float>.rangeFloatToCompletable(duration: Long? = null,
         ValueAnimator.ofFloat(first, second)
             .start(duration,
                 animationEnd = { it.onComplete() },
-                action = { action(it as Float) })
+                action = { value -> (value as? Float)?.also { action(it) } })
     }.reverse(reverse) {
         (second to first).rangeFloatToCompletable(duration, action = action)
     }
@@ -180,7 +180,7 @@ fun Pair<Int, Int>.rangeIntToCompletable(duration: Long? = null,
         ValueAnimator.ofInt(first, second)
             .start(duration,
                 animationEnd = { it.onComplete() },
-                action = { action(it as Int) })
+                action = { value -> (value as? Int)?.also { action(it) } })
     }.run {
         if (reverse) {
             andThen((second to first).rangeIntToCompletable(duration, action = action))
@@ -700,8 +700,8 @@ private fun View.widthToCompletable(width: Int,
     Completable.create {
         ValueAnimator.ofInt(this.width, width.dpToPx())
             .start(duration, interpolator,
-                animationEnd = { it.onComplete() }) {
-                layoutParams.width = it as Int
+                animationEnd = { it.onComplete() }) { value ->
+                (value as? Int)?.also { layoutParams.width = it }
                 requestLayout()
             }
     }
@@ -712,8 +712,8 @@ private fun View.heightToCompletable(height: Int,
     Completable.create {
         ValueAnimator.ofInt(this.height, height.dpToPx())
             .start(duration, interpolator,
-                animationEnd = { it.onComplete() }) {
-                layoutParams.height = it as Int
+                animationEnd = { it.onComplete() }) { value ->
+                (value as? Int)?.also { layoutParams.height = it }
                 requestLayout()
             }
     }
@@ -807,8 +807,8 @@ private fun View.backgroundColorToCompletable(colorFrom: Int,
     Completable.create {
         ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo)
             .start(duration, interpolator,
-                animationEnd = { it.onComplete() }) {
-                setBackgroundColor(it as Int)
+                animationEnd = { it.onComplete() }) { value ->
+                (value as? Int)?.also { setBackgroundColor(it) }
             }
     }
 
