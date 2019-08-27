@@ -162,6 +162,14 @@ ALL PROPERTIES
 
 :information_source: All the functions have `duration: Long`, `interpolator: TimeInterpolator`, `startDelay: Long` and `reverse: Boolean` properties.
 
+
+SUPPORT ❤️
+-----
+
+Find this library useful? Support it by joining [**stargazers**](https://github.com/lopspower/RxAnimation/stargazers) for this repository ⭐️
+<br/>
+And [**follow me**](https://github.com/lopspower?tab=followers) for my next creations 👍
+
 LICENCE
 -----
 
