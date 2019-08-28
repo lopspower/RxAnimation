@@ -2,10 +2,10 @@
 
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c793e3842c79477399967e2443c76990)](https://app.codacy.com/app/lopspower/RxAnimation?utm_source=github.com&utm_medium=referral&utm_content=lopspower/CircleView&utm_campaign=Badge_Grade_Dashboard)
+[![Download](https://api.bintray.com/packages/lopspower/maven/com.mikhaellopez:rxanimation/images/download.svg?version=0.0.7)](https://bintray.com/lopspower/maven/com.mikhaellopez:rxanimation/0.0.7/link)
 <br>
-[![Android Arsenal](https://img.shields.io/badge/Android%20Arsenal-RxAnimation-lightgrey.svg?style=flat)](https://android-arsenal.com/details/1/7736)
 [![Twitter](https://img.shields.io/badge/Twitter-@LopezMikhael-blue.svg?style=flat)](http://twitter.com/lopezmikhael)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/c793e3842c79477399967e2443c76990)](https://app.codacy.com/app/lopspower/RxAnimation?utm_source=github.com&utm_medium=referral&utm_content=lopspower/CircleView&utm_campaign=Badge_Grade_Dashboard)
 
 This is an Android library to make a simple way to animate your views on Android with Rx.
 
@@ -161,7 +161,6 @@ ALL PROPERTIES
 | text      | text                | text                   |
 
 :information_source: All the functions have `duration: Long`, `interpolator: TimeInterpolator`, `startDelay: Long` and `reverse: Boolean` properties.
-
 
 SUPPORT ❤️
 -----
