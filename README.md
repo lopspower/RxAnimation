@@ -95,7 +95,7 @@ RxAnimation.from(view)
 // or
 
 RxAnimation.from(circularImageView)
-    .rangeFloat(4f, 20f) { circularImageView.borderWidth = it }
+    .rangeFloat(4f, 20f) { circularImageView?.borderWidth = it }
 ```
 
 -   Use `reverse` properties to back to the initial value in all methods:
