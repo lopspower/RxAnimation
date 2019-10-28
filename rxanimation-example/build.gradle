@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'com.github.ben-manes.versions'
 
 android {
     compileSdkVersion androidCompileSdkVersion
@@ -41,4 +42,7 @@ dependencies {
     implementation rxBinding
     // UI
     implementation circleView
+
+    // DEPENDENCY CHECK STRATEGY
+    dependencyUpdates.resolutionStrategy = dependencyUpdatesStrategy
 }

@@ -19,15 +19,15 @@ ext {
     kotlinStdlib                = "org.jetbrains.kotlin:kotlin-stdlib:${ext.kotlin_version}"
 
     // ANDROID LIB
-    androidAppCompatXVersion    = '1.0.2'
+    androidXVersion             = '1.1.0'
     cardViewVersion             = '1.0.0'
-    androidXAppCompat           = "androidx.appcompat:appcompat:$androidAppCompatXVersion"
+    androidXAppCompat           = "androidx.appcompat:appcompat:$androidXVersion"
     cardView                    = "androidx.cardview:cardview:$cardViewVersion"
 
     // RX
     rxAndroidVersion            = '2.1.1'
-    rxJavaVersion               = '2.2.10'
-    rxKotlinVersion             = '2.3.0'
+    rxJavaVersion               = '2.2.13'
+    rxKotlinVersion             = '2.4.0'
     rxBindingVersion            = '3.0.0'
     rxAndroid                   = "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
     rxJava                      = "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
@@ -35,7 +35,21 @@ ext {
     rxBinding                   = "com.jakewharton.rxbinding3:rxbinding:$rxBindingVersion"
 
     // UI
-    circleViewVersion           = '1.1.2'
+    circleViewVersion           = '1.3.0'
     circleView                  = "com.mikhaellopez:circleview:$circleViewVersion"
+
+    // DEPENDENCY CHECK STRATEGY
+    dependencyUpdatesStrategy = {
+        componentSelection { rules ->
+            rules.all { ComponentSelection selection ->
+                boolean rejected = ['alpha', 'beta', 'rc', 'cr', 'm'].any { qualifier ->
+                    selection.candidate.version ==~ /(?i).*[.-]${qualifier}[.\d-]*/
+                }
+                if (rejected) {
+                    selection.reject('Release candidate')
+                }
+            }
+        }
+    }
 
 }

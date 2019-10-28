@@ -87,7 +87,7 @@ class MainActivity : AppCompatActivity() {
         btnCustomProperties.throttleClick()
                 .flatMapCompletable {
                     (0f to 30f).rangeFloatToCompletable(ANIMATION_DURATION, reverse = true) {
-                        cardCustomProperties.radius = it.dpToPx()
+                        cardCustomProperties?.radius = it.dpToPx()
                     }
                 }.subscribe().addTo(composite)
 
