@@ -11,9 +11,9 @@ ext {
     androidVersionName          = '0.0.7'
 
     // ANDROID VERSION
-    androidCompileSdkVersion    = 28
+    androidCompileSdkVersion    = 29
     androidMinSdkVersion        = 16
-    androidTargetSdkVersion     = 28
+    androidTargetSdkVersion     = 29
 
     // KOTLIN
     kotlinStdlib                = "org.jetbrains.kotlin:kotlin-stdlib:${ext.kotlin_version}"
