@@ -181,10 +181,52 @@ fun Pair<Int, Int>.rangeIntToCompletable(duration: Long? = null,
             .start(duration,
                 animationEnd = { it.onComplete() },
                 action = { value -> (value as? Int)?.also { action(it) } })
-    }.run {
-        if (reverse) {
-            andThen((second to first).rangeIntToCompletable(duration, action = action))
-        } else this
+    }.reverse(reverse) {
+        Pair(second, first).rangeIntToCompletable(duration, action = action)
+    }
+
+/**
+ * Create [Float] range to apply animation to your [View] and handle it in [Completable].
+ * Perfect to apply animation on custom properties.
+ * You can add a specific duration and reverse the animation.
+ *
+ * @param duration [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see rangeIntToCompletable
+ * @return A [Completable].
+ */
+fun Triple<Float, Float, Float>.rangeFloatToCompletable(duration: Long? = null,
+                                                        reverse: Boolean = false,
+                                                        action: (Float) -> Unit): Completable =
+    Completable.create {
+        ValueAnimator.ofFloat(first, second, third)
+            .start(duration,
+                animationEnd = { it.onComplete() },
+                action = { value -> (value as? Float)?.also { action(it) } })
+    }.reverse(reverse) {
+        Triple(third ,second, first).rangeFloatToCompletable(duration, action = action)
+    }
+
+/**
+ * Create [Int] range to apply animation to your [View] and handle it in [Completable].
+ * Perfect to apply animation on custom properties.
+ * You can add a specific duration and reverse the animation.
+ *
+ * @param duration [Long] optional, null by default.
+ * @param reverse [Boolean] optional, false by default.
+ * @see rangeFloatToCompletable
+ * @return A [Completable].
+ */
+fun Triple<Int, Int, Int>.rangeIntToCompletable(duration: Long? = null,
+                                                reverse: Boolean = false,
+                                                action: (Int) -> Unit): Completable =
+    Completable.create {
+        ValueAnimator.ofInt(first, second, third)
+            .start(duration,
+                animationEnd = { it.onComplete() },
+                action = { value -> (value as? Int)?.also { action(it) } })
+    }.reverse(reverse) {
+        Triple(third ,second, first).rangeIntToCompletable(duration, action = action)
     }
 //endregion
 
