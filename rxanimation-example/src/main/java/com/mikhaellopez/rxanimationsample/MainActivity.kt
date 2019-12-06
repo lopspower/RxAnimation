@@ -30,71 +30,71 @@ class MainActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         RxAnimation.sequentially(
-                cardView.scale(1f, ANIMATION_DURATION),
-                fab.scale(1f, ANIMATION_DURATION),
-                RxAnimation.together(
-                        fab.rotation(360f, ANIMATION_DURATION),
-                        text.fadeIn(ANIMATION_DURATION)
-                ),
-                progressBar.fadeIn(ANIMATION_DURATION)
+            cardView.scale(1f, ANIMATION_DURATION),
+            fab.scale(1f, ANIMATION_DURATION),
+            RxAnimation.together(
+                fab.rotation(360f, ANIMATION_DURATION),
+                text.fadeIn(ANIMATION_DURATION)
+            ),
+            progressBar.fadeIn(ANIMATION_DURATION)
         ).subscribe().addTo(composite)
 
         // DEMO
         btnAlpha.throttleClick()
-                .flatMapCompletable {
-                    btnAlpha.fadeOut(ANIMATION_DURATION, reverse = true)
-                }.subscribe().addTo(composite)
+            .flatMapCompletable {
+                btnAlpha.fadeOut(ANIMATION_DURATION, reverse = true)
+            }.subscribe().addTo(composite)
 
         btnTranslation.throttleClick()
-                .switchMapCompletable {
-                    btnTranslation.translation(500f, 500f, ANIMATION_DURATION, reverse = true)
-                }.subscribe().addTo(composite)
+            .switchMapCompletable {
+                btnTranslation.translation(500f, 500f, ANIMATION_DURATION, reverse = true)
+            }.subscribe().addTo(composite)
 
         btnScale.throttleClick()
-                .switchMapCompletable {
-                    btnScale.scale(0f, ANIMATION_DURATION, reverse = true)
-                }.subscribe().addTo(composite)
+            .switchMapCompletable {
+                btnScale.scale(0f, ANIMATION_DURATION, reverse = true)
+            }.subscribe().addTo(composite)
 
         btnRotation.throttleClick()
-                .switchMapCompletable {
-                    btnRotation.rotation(360f, ANIMATION_DURATION, reverse = true)
-                }.subscribe().addTo(composite)
+            .switchMapCompletable {
+                btnRotation.rotation(360f, ANIMATION_DURATION, reverse = true)
+            }.subscribe().addTo(composite)
 
         btnBackgroundColor.throttleClick()
-                .switchMapCompletable {
-                    btnBackgroundColor.backgroundColor(
-                            ContextCompat.getColor(this, R.color.primary),
-                            ContextCompat.getColor(this, R.color.accent),
-                            ANIMATION_DURATION, reverse = true
-                    )
-                }.subscribe().addTo(composite)
+            .switchMapCompletable {
+                btnBackgroundColor.backgroundColor(
+                    ContextCompat.getColor(this, R.color.primary),
+                    ContextCompat.getColor(this, R.color.accent),
+                    ANIMATION_DURATION, reverse = true
+                )
+            }.subscribe().addTo(composite)
 
         btnResize.throttleClick()
-                .switchMapCompletable {
-                    btnResize.resize(0, 0, ANIMATION_DURATION, reverse = true)
-                }.subscribe().addTo(composite)
+            .switchMapCompletable {
+                btnResize.resize(0, 0, ANIMATION_DURATION, reverse = true)
+            }.subscribe().addTo(composite)
 
         btnShake.throttleClick(ANIMATION_DURATION)
-                .switchMapCompletable {
-                    btnShake.shake()
-                }.subscribe().addTo(composite)
+            .switchMapCompletable {
+                btnShake.shake()
+            }.subscribe().addTo(composite)
 
         btnPress.throttleClick(ANIMATION_DURATION)
-                .switchMapCompletable {
-                    btnPress.press()
-                }.subscribe().addTo(composite)
+            .switchMapCompletable {
+                btnPress.press()
+            }.subscribe().addTo(composite)
 
         btnCustomProperties.throttleClick()
-                .flatMapCompletable {
-                    (0f to 30f).rangeFloatToCompletable(ANIMATION_DURATION, reverse = true) {
-                        cardCustomProperties?.radius = it.dpToPx()
-                    }
-                }.subscribe().addTo(composite)
+            .flatMapCompletable {
+                (0f to 30f).rangeFloatToCompletable(ANIMATION_DURATION, reverse = true) {
+                    cardCustomProperties?.radius = it.dpToPx()
+                }
+            }.subscribe().addTo(composite)
 
         btnText.throttleClick(ANIMATION_DURATION)
-                .switchMapCompletable {
-                    textToSetText.text("Amazing", ANIMATION_DURATION, reverse = true)
-                }.subscribe().addTo(composite)
+            .switchMapCompletable {
+                textToSetText.text("Amazing", ANIMATION_DURATION, reverse = true)
+            }.subscribe().addTo(composite)
     }
 
     override fun onPause() {
@@ -103,9 +103,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun View.throttleClick(duration: Long = ANIMATION_DURATION * 2): Observable<Unit> =
-            clicks().throttleFirst(duration, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
+        clicks().throttleFirst(duration, TimeUnit.MILLISECONDS, AndroidSchedulers.mainThread())
 
     private fun Float.dpToPx(): Float =
-            this * Resources.getSystem().displayMetrics.density
+        this * Resources.getSystem().displayMetrics.density
 
 }

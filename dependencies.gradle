@@ -28,14 +28,14 @@ ext {
     rxAndroidVersion            = '2.1.1'
     rxJavaVersion               = '2.2.13'
     rxKotlinVersion             = '2.4.0'
-    rxBindingVersion            = '3.0.0'
+    rxBindingVersion            = '3.1.0'
     rxAndroid                   = "io.reactivex.rxjava2:rxandroid:$rxAndroidVersion"
     rxJava                      = "io.reactivex.rxjava2:rxjava:$rxJavaVersion"
     rxKotlin                    = "io.reactivex.rxjava2:rxkotlin:$rxKotlinVersion"
     rxBinding                   = "com.jakewharton.rxbinding3:rxbinding:$rxBindingVersion"
 
     // UI
-    circleViewVersion           = '1.3.0'
+    circleViewVersion           = '1.3.1'
     circleView                  = "com.mikhaellopez:circleview:$circleViewVersion"
 
     // DEPENDENCY CHECK STRATEGY

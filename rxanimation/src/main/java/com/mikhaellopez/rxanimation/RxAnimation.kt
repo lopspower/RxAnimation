@@ -26,7 +26,7 @@ object RxAnimation {
      * @return A [Completable].
      */
     fun together(vararg completables: Completable): Completable =
-            Completable.mergeArray(*completables)
+        Completable.mergeArray(*completables)
 
     /**
      * Run all the [Completable] sequentially (one by one).
@@ -36,12 +36,15 @@ object RxAnimation {
      * @return A [Completable].
      */
     fun sequentially(vararg completables: Completable): Completable =
-            completables.first().run {
-                if (completables.size > 1) {
-                    andThen(sequentially(*completables.toMutableList()
+        completables.first().run {
+            if (completables.size > 1) {
+                andThen(
+                    sequentially(
+                        *completables.toMutableList()
                             .apply { removeAt(0) }.toTypedArray()
-                    ))
-                } else this
-            }
+                    )
+                )
+            } else this
+        }
 
 }
