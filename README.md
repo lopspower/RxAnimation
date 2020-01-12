@@ -1,3 +1,5 @@
+<p align="center"><img src="/preview/header.png"></p>
+
 <img src="/preview/title.gif" alt="title" title="title" width="300" height="87.8" />
 
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
