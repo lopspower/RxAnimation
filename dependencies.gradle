@@ -35,7 +35,7 @@ ext {
     rxBinding                   = "com.jakewharton.rxbinding3:rxbinding:$rxBindingVersion"
 
     // UI
-    circleViewVersion           = '1.3.1'
+    circleViewVersion           = '1.3.2'
     circleView                  = "com.mikhaellopez:circleview:$circleViewVersion"
 
     // DEPENDENCY CHECK STRATEGY
