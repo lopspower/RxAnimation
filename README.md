@@ -4,7 +4,7 @@
 
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
-[![Download](https://api.bintray.com/packages/lopspower/maven/com.mikhaellopez:rxanimation/images/download.svg?version=0.0.7)](https://bintray.com/lopspower/maven/com.mikhaellopez:rxanimation/0.0.7/link)
+[![Download](https://api.bintray.com/packages/lopspower/maven/com.mikhaellopez:rxanimation/images/download.svg?version=1.0.0)](https://bintray.com/lopspower/maven/com.mikhaellopez:rxanimation/1.0.0/link)
 <br>
 [![Twitter](https://img.shields.io/badge/Twitter-@LopezMikhael-blue.svg?style=flat)](http://twitter.com/lopezmikhael)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c793e3842c79477399967e2443c76990)](https://app.codacy.com/app/lopspower/RxAnimation?utm_source=github.com&utm_medium=referral&utm_content=lopspower/CircleView&utm_campaign=Badge_Grade_Dashboard)
@@ -21,7 +21,7 @@ USAGE
 Add RxAnimation library via Gradle:
 
 ```groovy
-implementation 'com.mikhaellopez:rxanimation:0.0.7'
+implementation 'com.mikhaellopez:rxanimation:1.0.0'
 ```
 
 KOTLIN
