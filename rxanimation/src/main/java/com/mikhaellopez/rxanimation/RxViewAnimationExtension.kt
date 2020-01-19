@@ -122,17 +122,20 @@ private fun ValueAnimator.start(
  * You can add a specific duration.
  *
  * @param duration [Long] optional, null by default.
+ * @param interpolator [Interpolator] optional, null by default.
  * @param action ([Any]) -> [Unit] the action to do on UpdateListener.
  * @see startValueAnimator
  * @return A [Completable].
  */
 fun ValueAnimator.start(
     duration: Long? = null,
+    interpolator: Interpolator? = null,
     action: (Any) -> Unit
 ): Completable =
     Completable.create {
         start(
             duration,
+            interpolator,
             animationEnd = { it.onComplete() },
             action = action
         )
@@ -158,22 +161,24 @@ fun ViewPropertyAnimator.animate(): Completable =
  * You can add a specific duration and reverse the animation.
  *
  * @param duration [Long] optional, null by default.
+ * @param interpolator [Interpolator] optional, null by default.
  * @param reverse [Boolean] optional, false by default.
  * @see rangeIntToCompletable
  * @return A [Completable].
  */
 fun Pair<Float, Float>.rangeFloatToCompletable(
     duration: Long? = null,
+    interpolator: Interpolator? = null,
     reverse: Boolean = false,
     action: (Float) -> Unit
 ): Completable =
     Completable.create {
         ValueAnimator.ofFloat(first, second)
-            .start(duration,
+            .start(duration, interpolator,
                 animationEnd = { it.onComplete() },
                 action = { value -> (value as? Float)?.also { action(it) } })
     }.reverse(reverse) {
-        (second to first).rangeFloatToCompletable(duration, action = action)
+        (second to first).rangeFloatToCompletable(duration, interpolator, action = action)
     }
 
 /**
@@ -182,23 +187,31 @@ fun Pair<Float, Float>.rangeFloatToCompletable(
  * You can add a specific duration and reverse the animation.
  *
  * @param duration [Long] optional, null by default.
+ * @param interpolator [Interpolator] optional, null by default.
  * @param reverse [Boolean] optional, false by default.
  * @see rangeFloatToCompletable
  * @return A [Completable].
  */
 fun Pair<Int, Int>.rangeIntToCompletable(
     duration: Long? = null,
+    interpolator: Interpolator? = null,
     reverse: Boolean = false,
     action: (Int) -> Unit
 ): Completable =
     Completable.create {
         ValueAnimator.ofInt(first, second)
-            .start(duration,
+            .start(duration, interpolator,
                 animationEnd = { it.onComplete() },
                 action = { value -> (value as? Int)?.also { action(it) } })
     }.run {
         if (reverse) {
-            andThen((second to first).rangeIntToCompletable(duration, action = action))
+            andThen(
+                (second to first).rangeIntToCompletable(
+                    duration,
+                    interpolator,
+                    action = action
+                )
+            )
         } else this
     }
 //endregion

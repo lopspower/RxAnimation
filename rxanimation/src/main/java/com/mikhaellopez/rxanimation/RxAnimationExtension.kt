@@ -23,15 +23,17 @@ private fun Observable<View>.doCompletable(actionCompletable: (View) -> Completa
  *
  * @param valueAnimator [ValueAnimator] param mandatory.
  * @param duration [Long] optional, null by default.
+ * @param interpolator [Interpolator] optional, null by default.
  * @param action ([Any]) -> [Unit] the action to do on UpdateListener.
  * @return An [Observable] of [View].
  */
 fun Observable<View>.startValueAnimator(
     valueAnimator: ValueAnimator,
     duration: Long? = null,
+    interpolator: Interpolator? = null,
     action: (Any) -> Unit
 ): Observable<View> =
-    doCompletable { valueAnimator.start(duration, action) }
+    doCompletable { valueAnimator.start(duration, interpolator, action) }
 //endregion
 
 //region RANGE
@@ -43,6 +45,7 @@ fun Observable<View>.startValueAnimator(
  * @param start [Float] param mandatory.
  * @param end [Float] param mandatory.
  * @param duration [Long] optional, null by default.
+ * @param interpolator [Interpolator] optional, null by default.
  * @param reverse [Boolean] optional, false by default.
  * @see rangeInt
  * @return An [Observable] of [View].
@@ -50,10 +53,11 @@ fun Observable<View>.startValueAnimator(
 fun Observable<View>.rangeFloat(
     start: Float, end: Float,
     duration: Long? = null,
+    interpolator: Interpolator? = null,
     reverse: Boolean = false,
     action: (Float) -> Unit
 ): Observable<View> =
-    doCompletable { (start to end).rangeFloatToCompletable(duration, reverse, action) }
+    doCompletable { (start to end).rangeFloatToCompletable(duration, interpolator, reverse, action) }
 
 /**
  * Apply animation to your [View] with [Int] range and handle it in [Observable].
@@ -63,6 +67,7 @@ fun Observable<View>.rangeFloat(
  * @param start [Int] param mandatory.
  * @param end [Int] param mandatory.
  * @param duration [Long] optional, null by default.
+ * @param interpolator [Interpolator] optional, null by default.
  * @param reverse [Boolean] optional, false by default.
  * @see rangeFloat
  * @return An [Observable] of [View].
@@ -70,10 +75,11 @@ fun Observable<View>.rangeFloat(
 fun Observable<View>.rangeInt(
     start: Int, end: Int,
     duration: Long? = null,
+    interpolator: Interpolator? = null,
     reverse: Boolean = false,
     action: (Int) -> Unit
 ): Observable<View> =
-    doCompletable { (start to end).rangeIntToCompletable(duration, reverse, action) }
+    doCompletable { (start to end).rangeIntToCompletable(duration, interpolator, reverse, action) }
 //endregion
 
 //region ALPHA
