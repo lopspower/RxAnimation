@@ -8,8 +8,8 @@ import android.view.View
 import android.view.animation.CycleInterpolator
 import android.view.animation.Interpolator
 import android.widget.TextView
-import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
 
 //region PRIVATE UTILS
 private fun Observable<View>.doCompletable(actionCompletable: (View) -> Completable): Observable<View> =

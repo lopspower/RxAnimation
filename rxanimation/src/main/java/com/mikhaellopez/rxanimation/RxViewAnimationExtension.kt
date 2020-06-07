@@ -9,8 +9,8 @@ import android.view.ViewPropertyAnimator
 import android.view.animation.CycleInterpolator
 import android.view.animation.Interpolator
 import android.widget.TextView
-import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
 
 //region PRIVATE UTILS
 private fun Float.dpToPx(): Float =

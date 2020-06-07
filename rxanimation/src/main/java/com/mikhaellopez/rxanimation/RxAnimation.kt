@@ -1,8 +1,8 @@
 package com.mikhaellopez.rxanimation
 
 import android.view.View
-import io.reactivex.Completable
-import io.reactivex.Observable
+import io.reactivex.rxjava3.core.Completable
+import io.reactivex.rxjava3.core.Observable
 
 /**
  * RxAnimation is an object that gives you access to static methods
