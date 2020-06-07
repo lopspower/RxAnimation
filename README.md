@@ -4,7 +4,7 @@
 
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
-[![Download](https://api.bintray.com/packages/lopspower/maven/com.mikhaellopez:rxanimation/images/download.svg?version=1.0.0)](https://bintray.com/lopspower/maven/com.mikhaellopez:rxanimation/1.0.0/link)
+[![Download](https://api.bintray.com/packages/lopspower/maven/com.mikhaellopez:rxanimation/images/download.svg?version=2.0.0)](https://bintray.com/lopspower/maven/com.mikhaellopez:rxanimation/2.0.0/link)
 <br>
 [![Twitter](https://img.shields.io/badge/Twitter-@LopezMikhael-blue.svg?style=flat)](http://twitter.com/lopezmikhael)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c793e3842c79477399967e2443c76990)](https://app.codacy.com/app/lopspower/RxAnimation?utm_source=github.com&utm_medium=referral&utm_content=lopspower/CircleView&utm_campaign=Badge_Grade_Dashboard)
@@ -18,7 +18,14 @@ This is an Android library to make a simple way to animate your views on Android
 USAGE
 -----
 
-Add RxAnimation library via Gradle:
+Add RxAnimation library under **Rx3** with Gradle:
+
+```groovy
+implementation 'com.mikhaellopez:rxanimation:2.0.0'
+```
+
+:warning: If you use **Rx2** you need to implement the following version:
+
 
 ```groovy
 implementation 'com.mikhaellopez:rxanimation:1.0.0'
@@ -29,7 +36,7 @@ KOTLIN
 
 <img src="/preview/0.gif" alt="sample" title="sample" width="250" height="160" align="right" />
 
--   Animate your views and handle it in [Completable](http://reactivex.io/RxJava/2.x/javadoc/io/reactivex/Completable.html). For example **`alpha()`** and **`resize()`**:
+-   Animate your views and handle it in [Completable](http://reactivex.io/RxJava/3.x/javadoc/io/reactivex/rxjava3/core/Completable.html). For example **`alpha()`** and **`resize()`**:
 
 ```kotlin
 view1.alpha(1f)
