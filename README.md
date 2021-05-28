@@ -4,7 +4,7 @@
 
 [![Platform](https://img.shields.io/badge/platform-android-green.svg)](http://developer.android.com/index.html)
 [![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=16)
-[![Download](https://api.bintray.com/packages/lopspower/maven/com.mikhaellopez:rxanimation/images/download.svg?version=2.0.0)](https://bintray.com/lopspower/maven/com.mikhaellopez:rxanimation/2.0.0/link)
+[![Maven Central](https://img.shields.io/maven-central/v/com.mikhaellopez/rxanimation.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.com.mikhaellopez%22%20AND%20a:%rxanimation%22)
 <br>
 [![Twitter](https://img.shields.io/badge/Twitter-@LopezMikhael-blue.svg?style=flat)](http://twitter.com/lopezmikhael)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/c793e3842c79477399967e2443c76990)](https://app.codacy.com/app/lopspower/RxAnimation?utm_source=github.com&utm_medium=referral&utm_content=lopspower/CircleView&utm_campaign=Badge_Grade_Dashboard)
@@ -21,11 +21,10 @@ USAGE
 Add RxAnimation library under **Rx3** with Gradle:
 
 ```groovy
-implementation 'com.mikhaellopez:rxanimation:2.0.0'
+implementation 'com.mikhaellopez:rxanimation:2.1.0'
 ```
 
-:warning: If you use **Rx2** you need to implement the following version:
-
+:warning: If you use **Rx2** you need to implement the following version (just on jcenter):
 
 ```groovy
 implementation 'com.mikhaellopez:rxanimation:1.0.0'

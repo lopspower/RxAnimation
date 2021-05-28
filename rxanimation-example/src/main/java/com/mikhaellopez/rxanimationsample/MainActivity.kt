@@ -3,7 +3,9 @@ package com.mikhaellopez.rxanimationsample
 import android.content.res.Resources
 import android.os.Bundle
 import android.view.View
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
+import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import com.jakewharton.rxbinding4.view.clicks
 import com.mikhaellopez.rxanimation.*
@@ -11,7 +13,6 @@ import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers
 import io.reactivex.rxjava3.core.Observable
 import io.reactivex.rxjava3.disposables.CompositeDisposable
 import io.reactivex.rxjava3.kotlin.addTo
-import kotlinx.android.synthetic.main.activity_main.*
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -29,6 +30,23 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        val cardView = findViewById<CardView>(R.id.cardView)
+        val fab = findViewById<FrameLayout>(R.id.fab)
+        val text = findViewById<LinearLayout>(R.id.text)
+        val progressBar = findViewById<ProgressBar>(R.id.progressBar)
+        val btnAlpha = findViewById<Button>(R.id.btnAlpha)
+        val btnTranslation = findViewById<Button>(R.id.btnTranslation)
+        val btnScale = findViewById<Button>(R.id.btnScale)
+        val btnRotation = findViewById<Button>(R.id.btnRotation)
+        val btnBackgroundColor = findViewById<Button>(R.id.btnBackgroundColor)
+        val btnResize = findViewById<Button>(R.id.btnResize)
+        val btnShake = findViewById<Button>(R.id.btnShake)
+        val btnPress = findViewById<Button>(R.id.btnPress)
+        val btnCustomProperties = findViewById<Button>(R.id.btnCustomProperties)
+        val cardCustomProperties = findViewById<CardView>(R.id.cardCustomProperties)
+        val btnText = findViewById<CardView>(R.id.btnText)
+        val textToSetText = findViewById<TextView>(R.id.textToSetText)
+
         RxAnimation.sequentially(
             cardView.scale(1f, ANIMATION_DURATION),
             fab.scale(1f, ANIMATION_DURATION),

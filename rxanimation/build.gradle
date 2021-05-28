@@ -1,7 +1,5 @@
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
-apply plugin: 'com.jfrog.bintray'
-apply plugin: 'maven-publish'
 
 android {
     compileSdkVersion androidCompileSdkVersion
@@ -29,54 +27,4 @@ dependencies {
     implementation rxJava
 }
 
-//region Publish to jCenter
-def libGroupId = 'com.mikhaellopez'
-def libArtifactId = 'rxanimation'
-def libVersion = androidVersionName
-def libDesc = 'Simple way to animate your views on Android with Rx'
-def libLicenses = ['Apache-2.0']
-def libSiteUrl = 'https://github.com/lopspower/RxAnimation'
-def libVCSUrl = 'https://github.com/lopspower/RxAnimation.git'
-
-// Generate Source Jar
-task sourceJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier "sources"
-}
-
-// Create the publication with the pom configuration
-publishing {
-    publications {
-        MyPublication(MavenPublication) {
-            groupId libGroupId
-            artifactId libArtifactId
-            version libVersion
-            artifact(sourceJar)
-            artifact("$buildDir/outputs/aar/$libArtifactId-release.aar")
-        }
-    }
-}
-
-// Bintray config
-Properties properties = new Properties()
-properties.load(project.rootProject.file('local.properties').newDataInputStream())
-
-bintray {
-    user = properties.getProperty("bintray.user")
-    key = properties.getProperty("bintray.apikey")
-    publications = ['MyPublication']
-    pkg {
-        repo = "maven"
-        name = "$libGroupId:$libArtifactId"
-        desc = libDesc
-        licenses = libLicenses
-        websiteUrl = libSiteUrl
-        vcsUrl = libVCSUrl
-        version {
-            name = libVersion
-            vcsTag = libVersion
-            released = new Date()
-        }
-    }
-}
-//endregion
+apply from: rootProject.file('gradle/publish-mavencentral.gradle')
