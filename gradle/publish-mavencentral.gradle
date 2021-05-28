@@ -43,7 +43,7 @@ afterEvaluate {
                 }
 
                 pom.project {
-                    name 'CircularImageView'
+                    name 'RxAnimation'
                     packaging 'aar'
                     // optionally artifactId can be defined here
                     description 'Simple way to animate your views on Android with Rx'
