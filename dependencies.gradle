@@ -2,7 +2,6 @@ allprojects {
     repositories {
         google()
         mavenCentral()
-        jcenter()
     }
 }
 
@@ -33,7 +32,7 @@ ext {
     rxBinding                   = "com.jakewharton.rxbinding4:rxbinding:4.0.0"
 
     // UI
-    circleView                  = "com.mikhaellopez:circleview:1.3.2"
+    circleView                  = "com.mikhaellopez:circleview:1.4.0"
 
     // DEPENDENCY CHECK STRATEGY
     dependencyUpdatesStrategy = {
