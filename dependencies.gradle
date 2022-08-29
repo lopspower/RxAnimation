@@ -6,33 +6,37 @@ allprojects {
 }
 
 ext {
-    // APP VERSION
+    // LIBRARY VERSION
     androidVersionCode          = 10
     androidVersionName          = '2.1.0'
+
+    // LIBRARY INFORMATION
     libraryGroupId              = 'com.mikhaellopez'
     libraryArtifactId           = 'rxanimation'
     libraryVersion              = androidVersionName
+    libraryName                 = "RxAnimation"
+    libraryDesc                 = "Simple way to animate your views on Android with Rx"
 
     // ANDROID VERSION
-    androidCompileSdkVersion    = 30
+    androidCompileSdkVersion    = 33
     androidMinSdkVersion        = 16
-    androidTargetSdkVersion     = 30
+    androidTargetSdkVersion     = androidCompileSdkVersion
 
     // KOTLIN
     kotlinStdlib                = "org.jetbrains.kotlin:kotlin-stdlib:${ext.kotlin_version}"
 
     // ANDROID LIB
-    androidXAppCompat           = "androidx.appcompat:appcompat:1.3.0"
+    androidXAppCompat           = "androidx.appcompat:appcompat:1.5.0"
     cardView                    = "androidx.cardview:cardview:1.0.0"
 
     // RX
     rxAndroid                   = "io.reactivex.rxjava3:rxandroid:3.0.0"
-    rxJava                      = "io.reactivex.rxjava3:rxjava:3.0.4"
+    rxJava                      = "io.reactivex.rxjava3:rxjava:3.1.5"
     rxKotlin                    = "io.reactivex.rxjava3:rxkotlin:3.0.1"
     rxBinding                   = "com.jakewharton.rxbinding4:rxbinding:4.0.0"
 
     // UI
-    circleView                  = "com.mikhaellopez:circleview:1.4.0"
+    circleView                  = "com.mikhaellopez:circleview:1.4.1"
 
     // DEPENDENCY CHECK STRATEGY
     dependencyUpdatesStrategy = {

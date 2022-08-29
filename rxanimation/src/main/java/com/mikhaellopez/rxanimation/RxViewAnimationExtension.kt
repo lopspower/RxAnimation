@@ -1,6 +1,7 @@
 package com.mikhaellopez.rxanimation
 
 import android.animation.*
+import android.annotation.SuppressLint
 import android.annotation.TargetApi
 import android.content.res.Resources
 import android.os.Build
@@ -108,7 +109,7 @@ private fun ValueAnimator.start(
         addUpdateListener { action(it.animatedValue) }
         animationEnd?.also {
             addListener(object : AnimatorListenerAdapter() {
-                override fun onAnimationEnd(animation: Animator?) {
+                override fun onAnimationEnd(animation: Animator) {
                     super.onAnimationEnd(animation)
                     it()
                 }
