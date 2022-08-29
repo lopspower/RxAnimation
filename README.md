@@ -19,7 +19,7 @@ USAGE
 Add RxAnimation library under **Rx3** with Gradle:
 
 ```groovy
-implementation 'com.mikhaellopez:rxanimation:2.1.0'
+implementation 'com.mikhaellopez:rxanimation:2.1.1'
 ```
 
 :warning: If you use **Rx2** you need to implement the following version (just on jcenter):
