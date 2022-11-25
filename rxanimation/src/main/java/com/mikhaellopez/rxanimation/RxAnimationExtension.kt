@@ -1,3 +1,4 @@
+@file:JvmName("RxAnimationExtension")
 package com.mikhaellopez.rxanimation
 
 import android.animation.TimeInterpolator
@@ -27,6 +28,7 @@ private fun Observable<View>.doCompletable(actionCompletable: (View) -> Completa
  * @param action ([Any]) -> [Unit] the action to do on UpdateListener.
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.startValueAnimator(
     valueAnimator: ValueAnimator,
     duration: Long? = null,
@@ -50,6 +52,7 @@ fun Observable<View>.startValueAnimator(
  * @see rangeInt
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.rangeFloat(
     start: Float, end: Float,
     duration: Long? = null,
@@ -72,6 +75,7 @@ fun Observable<View>.rangeFloat(
  * @see rangeFloat
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.rangeInt(
     start: Int, end: Int,
     duration: Long? = null,
@@ -98,6 +102,7 @@ fun Observable<View>.rangeInt(
  * @see fadeOut
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.alpha(
     alpha: Float,
     duration: Long? = null,
@@ -121,6 +126,7 @@ fun Observable<View>.alpha(
  * @see fadeOut
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.fadeIn(
     duration: Long? = null,
     interpolator: TimeInterpolator? = null,
@@ -143,6 +149,7 @@ fun Observable<View>.fadeIn(
  * @see fadeIn
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.fadeOut(
     duration: Long? = null,
     interpolator: TimeInterpolator? = null,
@@ -167,6 +174,7 @@ fun Observable<View>.fadeOut(
  * @param reverse [Boolean] optional, false by default.
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.translation(
     translationX: Float,
     translationY: Float,
@@ -201,6 +209,7 @@ fun Observable<View>.translation(
  * @see translationY
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.translationX(
     translationX: Float,
     duration: Long? = null,
@@ -225,6 +234,7 @@ fun Observable<View>.translationX(
  * @see translationX
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.translationY(
     translationY: Float,
     duration: Long? = null,
@@ -251,6 +261,7 @@ fun Observable<View>.translationY(
  * @see scaleY
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.scale(
     scale: Float,
     duration: Long? = null,
@@ -275,6 +286,7 @@ fun Observable<View>.scale(
  * @see scaleY
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.scaleX(
     scaleX: Float,
     duration: Long? = null,
@@ -299,6 +311,7 @@ fun Observable<View>.scaleX(
  * @see scaleX
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.scaleY(
     scaleY: Float,
     duration: Long? = null,
@@ -325,6 +338,7 @@ fun Observable<View>.scaleY(
  * @see rotationY
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.rotation(
     rotation: Float,
     duration: Long? = null,
@@ -349,6 +363,7 @@ fun Observable<View>.rotation(
  * @see rotationY
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.rotationX(
     rotationX: Float,
     duration: Long? = null,
@@ -373,6 +388,7 @@ fun Observable<View>.rotationX(
  * @see rotationX
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.rotationY(
     rotationY: Float,
     duration: Long? = null,
@@ -400,6 +416,7 @@ fun Observable<View>.rotationY(
  * @return An [Observable] of [View].
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@JvmOverloads
 fun Observable<View>.xyz(
     x: Float? = null,
     y: Float? = null,
@@ -427,6 +444,7 @@ fun Observable<View>.xyz(
  * @see z
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.x(
     x: Float,
     duration: Long? = null,
@@ -452,6 +470,7 @@ fun Observable<View>.x(
  * @see z
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.y(
     y: Float,
     duration: Long? = null,
@@ -478,6 +497,7 @@ fun Observable<View>.y(
  * @return An [Observable] of [View].
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@JvmOverloads
 fun Observable<View>.z(
     z: Float,
     duration: Long? = null,
@@ -502,6 +522,7 @@ fun Observable<View>.z(
  * @param reverse [Boolean] optional, false by default.
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.resize(
     width: Int, height: Int,
     duration: Long? = null,
@@ -524,6 +545,7 @@ fun Observable<View>.resize(
  * @see height
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.width(
     width: Int,
     duration: Long? = null,
@@ -546,6 +568,7 @@ fun Observable<View>.width(
  * @see width
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.height(
     height: Int,
     duration: Long? = null,
@@ -570,6 +593,7 @@ fun Observable<View>.height(
  * @see View.backgroundColor
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.backgroundColor(
     colorFrom: Int,
     colorTo: Int,
@@ -590,6 +614,7 @@ fun Observable<View>.backgroundColor(
  * @see View.shake
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.shake(
     duration: Long = 300,
     nbShake: Float = 2f,
@@ -610,6 +635,7 @@ fun Observable<View>.shake(
  * @see View.press
  * @return An [Observable] of [View].
  */
+@JvmOverloads
 fun Observable<View>.press(
     depth: Float = 0.95f,
     duration: Long? = null,
@@ -634,6 +660,7 @@ fun Observable<View>.press(
  * @see TextView.text
  * @return An [Observable] of [TextView].
  */
+@JvmOverloads
 fun Observable<TextView>.text(
     text: String,
     duration: Long = 300L,
