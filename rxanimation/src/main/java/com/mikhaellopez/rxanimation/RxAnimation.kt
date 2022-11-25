@@ -16,6 +16,7 @@ object RxAnimation {
      * @param view [View] param mandatory.
      * @return An [Observable] of [View].
      */
+    @JvmStatic
     fun from(view: View): Observable<View> = Observable.just(view)
 
     /**
@@ -25,6 +26,7 @@ object RxAnimation {
      * @see from
      * @return A [Completable].
      */
+    @JvmStatic
     fun together(vararg completables: Completable): Completable =
         Completable.mergeArray(*completables)
 
@@ -35,6 +37,7 @@ object RxAnimation {
      * @see from
      * @return A [Completable].
      */
+    @JvmStatic
     fun sequentially(vararg completables: Completable): Completable =
         completables.first().run {
             if (completables.size > 1) {

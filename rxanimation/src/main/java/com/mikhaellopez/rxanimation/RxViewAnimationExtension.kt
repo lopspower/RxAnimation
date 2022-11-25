@@ -1,3 +1,4 @@
+@file:JvmName("RxViewAnimationExtension")
 package com.mikhaellopez.rxanimation
 
 import android.animation.*
@@ -60,6 +61,7 @@ private fun Completable.reverse(
  * @see ViewPropertyAnimator
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.animate(
     alpha: Float? = null,
     translationX: Float? = null,
@@ -128,6 +130,7 @@ private fun ValueAnimator.start(
  * @see startValueAnimator
  * @return A [Completable].
  */
+@JvmOverloads
 fun ValueAnimator.start(
     duration: Long? = null,
     interpolator: Interpolator? = null,
@@ -167,6 +170,7 @@ fun ViewPropertyAnimator.animate(): Completable =
  * @see rangeIntToCompletable
  * @return A [Completable].
  */
+@JvmOverloads
 fun Pair<Float, Float>.rangeFloatToCompletable(
     duration: Long? = null,
     interpolator: Interpolator? = null,
@@ -193,6 +197,7 @@ fun Pair<Float, Float>.rangeFloatToCompletable(
  * @see rangeFloatToCompletable
  * @return A [Completable].
  */
+@JvmOverloads
 fun Pair<Int, Int>.rangeIntToCompletable(
     duration: Long? = null,
     interpolator: Interpolator? = null,
@@ -233,6 +238,7 @@ fun Pair<Int, Int>.rangeIntToCompletable(
  * @see View.fadeOut
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.alpha(
     alpha: Float,
     duration: Long? = null,
@@ -266,6 +272,7 @@ fun View.alpha(
  * @see View.alpha
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.fadeIn(
     duration: Long? = null,
     interpolator: TimeInterpolator? = null,
@@ -289,6 +296,7 @@ fun View.fadeIn(
  * @see View.alpha
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.fadeOut(
     duration: Long? = null,
     interpolator: TimeInterpolator? = null,
@@ -315,6 +323,7 @@ fun View.fadeOut(
  * @see View.translationY
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.translation(
     translationX: Float,
     translationY: Float,
@@ -351,6 +360,7 @@ fun View.translation(
  * @see View.translationY
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.translationX(
     translationX: Float,
     duration: Long? = null,
@@ -385,6 +395,7 @@ fun View.translationX(
  * @see View.translationX
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.translationY(
     translationY: Float,
     duration: Long? = null,
@@ -421,6 +432,7 @@ fun View.translationY(
  * @see View.scaleY
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.scale(
     scale: Float,
     duration: Long? = null,
@@ -461,6 +473,7 @@ fun View.scale(
  * @see View.scaleY
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.scaleX(
     scaleX: Float,
     duration: Long? = null,
@@ -495,6 +508,7 @@ fun View.scaleX(
  * @see View.scaleX
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.scaleY(
     scaleY: Float,
     duration: Long? = null,
@@ -531,6 +545,7 @@ fun View.scaleY(
  * @see View.rotationY
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.rotation(
     rotation: Float,
     duration: Long? = null,
@@ -565,6 +580,7 @@ fun View.rotation(
  * @see View.rotationY
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.rotationX(
     rotationX: Float,
     duration: Long? = null,
@@ -599,6 +615,7 @@ fun View.rotationX(
  * @see View.rotationX
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.rotationY(
     rotationY: Float,
     duration: Long? = null,
@@ -639,6 +656,7 @@ fun View.rotationY(
  * @return A [Completable].
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@JvmOverloads
 fun View.xyz(
     x: Float? = null,
     y: Float? = null,
@@ -678,6 +696,7 @@ fun View.xyz(
  * @see View.z
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.x(
     x: Float,
     duration: Long? = null,
@@ -713,6 +732,7 @@ fun View.x(
  * @see View.z
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.y(
     y: Float,
     duration: Long? = null,
@@ -749,6 +769,7 @@ fun View.y(
  * @return A [Completable].
  */
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@JvmOverloads
 fun View.z(
     z: Float,
     duration: Long? = null,
@@ -814,6 +835,7 @@ private fun View.heightToCompletable(
  * @see View.height
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.resize(
     width: Int, height: Int,
     duration: Long? = null,
@@ -843,6 +865,7 @@ fun View.resize(
  * @see View.height
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.width(
     width: Int,
     duration: Long? = null,
@@ -871,6 +894,7 @@ fun View.width(
  * @see View.width
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.height(
     height: Int,
     duration: Long? = null,
@@ -915,6 +939,7 @@ private fun View.backgroundColorToCompletable(
  * @see backgroundColor
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.backgroundColor(
     colorFrom: Int,
     colorTo: Int,
@@ -938,6 +963,7 @@ fun View.backgroundColor(
  * @see shake
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.shake(
     duration: Long = 300,
     nbShake: Float = 2f,
@@ -965,6 +991,7 @@ fun View.shake(
  * @see press
  * @return A [Completable].
  */
+@JvmOverloads
 fun View.press(
     depth: Float = 0.95f,
     duration: Long? = null,
@@ -988,6 +1015,7 @@ fun View.press(
  * @param reverse [Boolean] optional, false by default.
  * @return A [Completable].
  */
+@JvmOverloads
 fun TextView.text(
     text: String,
     duration: Long = 300L,
